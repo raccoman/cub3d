@@ -21,6 +21,7 @@
 # endif
 
 int		gnl(int fd, char **line);
+int		gnnel(int fd, char **line);
 char	*ft_strchr(const char *s, int c);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);

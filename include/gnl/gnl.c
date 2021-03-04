@@ -106,3 +106,30 @@ int		gnl(int fd, char **line)
 	}
 	return (r < 0 ? ft_freemem(&current, -1) : ft_compose(r, current, line));
 }
+
+int		is_isspace(int c)
+{
+	return (c == '\r' ||
+			c == '\v' ||
+			c == '\f' ||
+			c == '\n' ||
+			c == '\t' ||
+			c == ' ');
+}
+
+int		gnnel(int fd, char **line)
+{
+	char	*slider;
+	int		res;
+
+	while ((res = gnl(fd, line)) > 0)
+	{
+		slider = *line;
+		while (is_isspace(*slider))
+			slider++;
+		if (*slider != 0)
+			break;
+		free(*line);
+	}
+	return (res);
+}

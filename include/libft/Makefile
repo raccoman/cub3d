@@ -2,8 +2,15 @@ SOURCES =   atoi.c \
             is_digit.c \
             is_isspace.c \
             screen.c \
-            skip_isspace.c \
+            skip_charset.c \
             clamp.c \
+            contains_only.c \
+            starts_with.c \
+            contains.c \
+            strdup.c \
+            strlen.c \
+            terminate_at.c \
+            concatenate.c \
 
 HEADERS =   libft.h
 

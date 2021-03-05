@@ -107,7 +107,7 @@ int		gnl(int fd, char **line)
 	return (r < 0 ? ft_freemem(&current, -1) : ft_compose(r, current, line));
 }
 
-int		is_isspace(int c)
+int		ft_is_isspace(int c)
 {
 	return (c == '\r' ||
 			c == '\v' ||

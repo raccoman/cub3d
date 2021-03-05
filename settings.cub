@@ -11,10 +11,13 @@ C ./resources/texture/skybox.png
 S_BUSH ./resources/texture/bush.png
 S_MT ./resources/texture/MT-cut.png
 
-P Victini victini.png
-P Zekrom zekrom.png
-P Zorua zorua.png
+POKEMON Victini victini.png
+POKEMON Zekrom zekrom.png
+POKEMON Zorua zorua.png
+POKEMON Vulpix vulpix.png
+POKEMON Pikachu pikachu.png
 
+11111111111111111111111111111
         1111111111111111111111111
         1000000000110000000000001
         1011000001110000002000001

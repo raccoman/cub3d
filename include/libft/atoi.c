@@ -7,7 +7,7 @@ int	ft_atoi(char **string)
 
 	num = 0;
 	sign = 1;
-	*string = skip_isspace(*string);
+	*string = ft_skip_charset(*string, " \t\v\r\f\n");
 	while (**string == '+' || **string == '-')
 	{
 		sign = **string == '-' ? -1 : sign;

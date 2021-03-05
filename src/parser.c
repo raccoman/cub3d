@@ -1,60 +1,138 @@
 # include "parser.h"
 
-int	parse_resolution(t_game *game, int fd)
+int	parse_resolution(t_game *game, char *string)
 {
-	char	*line;
-	char	*slider;
+	char *reading;
 
-	while (gnl(fd, &line) > 0)
-	{
-		slider = line;
-		if (*(slider = skip_isspace(slider)) != 0)
-			break;
-		free(line);
-	}
-	if (*slider != 'R')
+	if(!(reading = ft_skip_charset(string, "R \t"))) //Unsafe should simplify this one
 		return (FALSE);
-	skip_isspace(++slider);
-	game->res_width = ft_clamp(ft_atoi(&slider), 2560, 640);
-	game->res_height = ft_clamp(ft_atoi(&slider), 1440, 360);
-	free(line);
+	game->res_width = ft_clamp(5120, 640, ft_atoi(&reading));
+	game->res_height = ft_clamp(2880, 360, ft_atoi(&reading));
+	free(string);
 	return (TRUE);
 }
 
-int	parse_textures(t_game *game, int fd)
+int	parse_texture(t_game *game, char *string, t_texture_path texture)
 {
+	char *path;
 
+	if(!(path = ft_skip_charset(string, "NOSWEAFCSBUHMT_ \t\r"))) //Unsafe should simplify this one
+		return (FALSE);
+	game->settings.env_texture_path[texture] = ft_strdup(path);
+	free(string);
 	return (TRUE);
 }
 
-int	parse_pokemon(t_game *game, int fd)
+int	parse_pokemon(t_game *game, char *string)
 {
+	char *reading;
+	char *name;
+	char *file_name;
+
+	reading = ft_starts_with(string, "POKEMON");
+	reading = ft_skip_charset(reading, " \t\r");
+	name = reading;
+	reading = ft_skip_charset(reading, "ABCDEFGHKIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+	reading = ft_skip_charset(reading, " \t\r");
+	file_name = reading;
+
+	game->settings.pokemon_data[game->settings.pokemon_count].name = ft_terminate_at(ft_strdup(name), " \t\r");
+	game->settings.pokemon_data[game->settings.pokemon_count].closeup_texture_path = ft_concatenate("./resources/texture/closeup_pokemon/", file_name);
+	game->settings.pokemon_data[game->settings.pokemon_count].texture_path = ft_concatenate("./resources/texture/pokemon/", file_name);
+	game->settings.pokemon_count++;
+
+	free(string);
 	return (TRUE);
 }
 
-int	parse_map(t_game *game, int fd)
+int	parse_map(t_game *game, char *string)
 {
+	int			i;
+	static int	size = 0;
+	signed char	**new_map;
+
+	size++;
+	if (!(new_map = malloc(sizeof(signed char *) * (size + 1))))
+		return (FALSE);
+	i = 0;
+	while (game->map != NULL && game->map[i] != NULL)
+	{
+		new_map[i] = game->map[i];
+		i++;
+	}
+	new_map[i] = (signed char *)ft_strdup(string);
+	new_map[i + 1] = NULL;
+	free(game->map);
+	game->map = new_map;
+	free(string);
 	return (TRUE);
 }
 
 int	parse_settings(t_game *game, const char *path)
 {
 	int		fd;
+	char	*line;
 
 	if ((fd = open(path, O_RDONLY)) < 0)
 		return (FALSE);
 
-	if (!parse_resolution(game, fd))
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "R") || !parse_resolution(game, line))
+			return (FALSE);
+
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "NO") || !parse_texture(game, line, NO_TEXTURE_PATH))
 		return (FALSE);
 
-	if (!parse_textures(game, fd))
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "SO") || !parse_texture(game, line, SO_TEXTURE_PATH))
 		return (FALSE);
 
-	if (!parse_pokemon(game, fd))
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "WE") || !parse_texture(game, line, WE_TEXTURE_PATH))
 		return (FALSE);
 
-	if (!parse_map(game, fd))
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "EA") || !parse_texture(game, line, EA_TEXTURE_PATH))
 		return (FALSE);
+
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "F") || !parse_texture(game, line, F_TEXTURE_PATH))
+		return (FALSE);
+
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "C") || !parse_texture(game, line, C_TEXTURE_PATH))
+		return (FALSE);
+
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_BUSH") || !parse_texture(game, line, S_BUSH_TEXTURE_PATH))
+		return (FALSE);
+
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_MT") || !parse_texture(game, line, S_MT_TEXTURE_PATH))
+		return (FALSE);
+
+	game->settings.pokemon_count = 0;
+	while (gnnel(fd, &line) >= 0 && ft_starts_with(line, "POKEMON"))
+		parse_pokemon(game, line);
+
+	/*
+	 * This is a shit
+	 */
+	game->map = NULL;
+	if (!ft_contains_only(line,"01234NSWE "))
+		return (FALSE);
+	parse_map(game, line);
+	while (gnl(fd, &line) > 0)
+	{
+		if (!ft_contains_only(line,"01234NSWE "))
+			return (FALSE);
+		parse_map(game, line);
+	}
+	if (!ft_contains_only(line,"01234NSWE "))
+		return (FALSE);
+	parse_map(game, line);
+
+	/*
+	printf("Resolution: %dx%d\n", game->res_width, game->res_height);
+	for (int i = 0; i < 8; ++i)
+		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
+	for (int i = 0; i < game->settings.pokemon_count; ++i)
+		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pokemon_data[i].name, game->settings.pokemon_data[i].texture_path, game->settings.pokemon_data[i].closeup_texture_path);
+	for (int i = 0; game->map[i] != NULL ; ++i) {
+		printf("%s\n", game->map[i]);
+	}*/
 
 	return (TRUE);
 }

@@ -21,6 +21,8 @@ typedef struct	s_game
 	t_settings		settings;
 }				t_game;
 
+int				load_textures(t_game *game);
+
 int				run_game(t_game *game);
 
 #endif

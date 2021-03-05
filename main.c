@@ -25,11 +25,11 @@ int	main(int argc, char **argv)
 	if (!load_textures(&game)) {
 		perror("Unable to load texture.");
 		return (1);
-	}/*
+	}
 	if (!run_game(&game))
 	{
 		perror("Cub3D crashed unexpectedly.");
 		return (1);
-	}*/
+	}
 	return (0);
 }

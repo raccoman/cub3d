@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-# include "cub3D.h"
+# include "cub3d.h"
 # include "gnl.h"
 # include "libft.h"
 # include <fcntl.h>

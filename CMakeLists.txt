@@ -10,11 +10,12 @@ include_directories(./include)
 include_directories(./include/gnl)
 include_directories(./include/libft)
 include_directories(./include/mlx)
+include_directories(./include/zlib)
 
 set(LINK_LIBRARIES ${CMAKE_SOURCE_DIR}/include)
 set(SRCS
-        src/cub3D.c
-        src/parser.c src/texture.c)
+        src/cub3d.c
+        src/parser.c src/texture.c src/events.c)
 
 add_executable(cub3D main.c ${SRCS})
 
@@ -23,4 +24,5 @@ target_link_libraries(${PROJECT_NAME}
         ${APPKIT_FRAMEWORK}
         ${LINK_LIBRARIES}/gnl/gnl.a
         ${LINK_LIBRARIES}/libft/libft.a
-        ${LINK_LIBRARIES}/mlx/libmlx.a)
+        ${LINK_LIBRARIES}/mlx/libmlx.a
+        ${LINK_LIBRARIES}/zlib/libz.a)

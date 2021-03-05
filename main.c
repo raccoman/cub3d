@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "parser.h"
 #include "texture.h"
-#include "cub3D.h"
+#include "cub3d.h"
 
 int	main(int argc, char **argv)
 {
@@ -16,12 +16,16 @@ int	main(int argc, char **argv)
 	{
 		perror("Unable to read settings. Error");
 		return (1);
-	}/*
-	if (!load_textures(&game))
+	}
+	if (!init_game(&game))
 	{
-		perror("Unable to load textures.");
+		perror("Unable to initialize game engine.");
 		return (1);
 	}
+	if (!load_textures(&game)) {
+		perror("Unable to load textures.");
+		return (1);
+	}/*
 	if (!run_game(&game))
 	{
 		perror("Cub3D crashed unexpectedly.");

@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (!load_textures(&game)) {
-		perror("Unable to load textures.");
+		perror("Unable to load texture.");
 		return (1);
 	}/*
 	if (!run_game(&game))

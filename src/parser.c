@@ -37,8 +37,8 @@ int	parse_pokemon(t_game *game, char *string)
 	file_name = reading;
 
 	game->settings.pokemon_data[game->settings.pokemon_count].name = ft_terminate_at(ft_strdup(name), " \t\r");
-	game->settings.pokemon_data[game->settings.pokemon_count].closeup_texture_path = ft_concatenate("./resources/texture/closeup_pokemon/", file_name);
-	game->settings.pokemon_data[game->settings.pokemon_count].texture_path = ft_concatenate("./resources/texture/pokemon/", file_name);
+	game->settings.pokemon_data[game->settings.pokemon_count].closeup_texture_path = ft_concatenate("../resources/texture/closeup_pokemon/", file_name);
+	game->settings.pokemon_data[game->settings.pokemon_count].texture_path = ft_concatenate("../resources/texture/pokemon/", file_name);
 	game->settings.pokemon_count++;
 
 	free(string);
@@ -100,7 +100,7 @@ int	parse_settings(t_game *game, const char *path)
 	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_BUSH") || !parse_texture(game, line, S_BUSH_TEXTURE_PATH))
 		return (FALSE);
 
-	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_MT") || !parse_texture(game, line, S_MT_TEXTURE_PATH))
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_MN") || !parse_texture(game, line, S_MN_TEXTURE_PATH))
 		return (FALSE);
 
 	game->settings.pokemon_count = 0;

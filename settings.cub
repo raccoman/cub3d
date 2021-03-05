@@ -1,15 +1,15 @@
 R 1280 720
 
-NO ./resources/texture/wall.png
-SO ./resources/texture/wall.png
-WE ./resources/texture/wall.png
-EA ./resources/texture/wall.png
+NO ../resources/texture/wall.png
+SO ../resources/texture/wall.png
+WE ../resources/texture/wall.png
+EA ../resources/texture/wall.png
 
-F ./resources/texture/floor.png
-C ./resources/texture/skybox.png
+F ../resources/texture/floor.png
+C ../resources/texture/skybox.png
 
-S_BUSH ./resources/texture/bush.png
-S_MT ./resources/texture/MT-cut.png
+S_BUSH ../resources/texture/bush.png
+S_MN ../resources/texture/MN-cut.png
 
 POKEMON Victini victini.png
 POKEMON Zekrom zekrom.png

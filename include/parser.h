@@ -14,7 +14,7 @@ typedef enum	s_texture_path {
 	F_TEXTURE_PATH = 4,
 	C_TEXTURE_PATH = 5,
 	S_BUSH_TEXTURE_PATH = 6,
-	S_MT_TEXTURE_PATH = 7
+	S_MN_TEXTURE_PATH = 7
 }				t_texture_path;
 
 int	parse_settings(t_game *game, const char *path);

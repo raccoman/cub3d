@@ -6,8 +6,12 @@
 # define FALSE 0
 # define TRUE 1
 
-# define MAX(a, b) a > b ? a : b
-# define MIN(a, b) a > b ? b : a
-# define CAP(max, min, v) v > max ? (max) : (min > v ? min : v)
+typedef struct	s_vector
+{
+	double	x;
+	double	z;
+}				t_vector;
+
+t_vector		new_vector(double x, double z);
 
 #endif

@@ -48,8 +48,8 @@ int	run_game(t_game *game)
 	set_current_timer(&game->timer);
 	while (game->manager.running)
 	{
-		update_timer(&game->timer);
 		i = 0;
+		update_timer(&game->timer);
 		while (i < game->timer.elapsed_ticks)
 		{
 			run_tick(game);

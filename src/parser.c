@@ -50,6 +50,7 @@ int	parse_map(t_game *game, char *string)
 	int			i;
 	static int	size = 0;
 	signed char	**new_map;
+	int			spawn;
 
 	size++;
 	if (!(new_map = malloc(sizeof(signed char *) * (size + 1))))
@@ -60,6 +61,24 @@ int	parse_map(t_game *game, char *string)
 		new_map[i] = game->map[i];
 		i++;
 	}
+
+	if ((spawn = ft_find(string, "NSWE")) >= 0)
+	{
+		if (game->settings.spawn.x != -1)
+			return (FALSE);
+
+		game->settings.spawn = new_vector(i, spawn);
+		if (string[spawn] == 'N')
+			game->settings.direction = NORTH;
+		else if (string[spawn] == 'S')
+			game->settings.direction = SOUTH;
+		else if (string[spawn] == 'W')
+			game->settings.direction = WEST;
+		else if (string[spawn] == 'E')
+			game->settings.direction = EAST;
+		string[spawn] = '0';
+	}
+
 	new_map[i] = (signed char *)ft_strdup(string);
 	new_map[i + 1] = NULL;
 	free(game->map);
@@ -111,18 +130,16 @@ int	parse_settings(t_game *game, const char *path)
 	 * This is a shit
 	 */
 	game->map = NULL;
-	if (!ft_contains_only(line,"01234NSWE "))
+	game->settings.spawn = new_vector(-1, -1);
+	if (!ft_contains_only(line,"01234NSWE ") || !parse_map(game, line))
 		return (FALSE);
-	parse_map(game, line);
 	while (gnl(fd, &line) > 0)
 	{
-		if (!ft_contains_only(line,"01234NSWE "))
+		if (!ft_contains_only(line,"01234NSWE ") || !parse_map(game, line))
 			return (FALSE);
-		parse_map(game, line);
 	}
-	if (!ft_contains_only(line,"01234NSWE "))
+	if (!ft_contains_only(line,"01234NSWE ") || !parse_map(game, line))
 		return (FALSE);
-	parse_map(game, line);
 
 	/*
 	printf("Resolution: %dx%d\n", game->res_width, game->res_height);
@@ -130,9 +147,10 @@ int	parse_settings(t_game *game, const char *path)
 		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
 	for (int i = 0; i < game->settings.pokemon_count; ++i)
 		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pokemon_data[i].name, game->settings.pokemon_data[i].texture_path, game->settings.pokemon_data[i].closeup_texture_path);
-	for (int i = 0; game->map[i] != NULL ; ++i) {
+	 for (int i = 0; game->map[i] != NULL ; ++i) {
 		printf("%s\n", game->map[i]);
-	}*/
-
+	}
+	 printf("Spawn: %f %f %d", game->settings.spawn.x, game->settings.spawn.z, game->settings.direction);
+	*/
 	return (TRUE);
 }

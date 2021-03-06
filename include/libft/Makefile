@@ -11,6 +11,7 @@ SOURCES =   atoi.c \
             strlen.c \
             terminate_at.c \
             concatenate.c \
+            find.c \
 
 HEADERS =   libft.h
 

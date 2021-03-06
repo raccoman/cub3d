@@ -4,13 +4,13 @@
 # include "settings.h"
 # include "texture.h"
 # include "utils.h"
+# include "keyboard.h"
 # include <time.h>
 
 typedef struct	s_manager
 {
 	void	*instance;
 	void	*window;
-	int		running;
 	short	inputs[270];
 }				t_manager;
 
@@ -19,6 +19,16 @@ typedef struct	s_timer
 	int64_t	last_update;
 	int64_t	elapsed_ticks;
 }				t_timer;
+
+typedef struct	s_player
+{
+	double	posx;
+	double	posz;
+	double	dirx;
+	double	dirz;
+	double	planex;
+	double	planez;
+}				t_player;
 
 typedef struct	s_game
 {
@@ -29,6 +39,7 @@ typedef struct	s_game
 
 	t_textures		textures;
 	t_settings		settings;
+	t_player		player;
 	t_timer			timer;
 	t_manager		manager;
 }				t_game;
@@ -41,6 +52,8 @@ int				onKeyRelease(int key, t_game *game);
 
 int				onMouseClick(int button, int x, int y, t_game *game);
 
+int				onGameLoop(t_game *game);
+
 int				init_game(t_game *game);
 
 int				load_textures(t_game *game);
@@ -49,8 +62,14 @@ int				run_game(t_game *game);
 
 int				run_tick(t_game *game);
 
-void			set_current_timer(t_timer *timer);
+int64_t			current_milliseconds(t_timer *timer);
 
 void			update_timer(t_timer *timer);
+
+void			init_player(t_settings settings, t_player *player);
+
+int				run_player_tick(t_game *game);
+
+int				rotate_player(t_game *game, double rotatespeed);
 
 #endif

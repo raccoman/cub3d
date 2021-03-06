@@ -15,7 +15,14 @@ include_directories(./include/zlib)
 set(LINK_LIBRARIES ${CMAKE_SOURCE_DIR}/include)
 set(SRCS
         src/cub3d.c
-        src/parser.c src/texture.c src/events.c src/timer.c src/world.c src/renderer.c src/utils.c)
+        src/parser.c
+        src/texture.c
+        src/events.c
+        src/timer.c
+        src/world.c
+        src/renderer.c
+        src/utils.c
+        src/player.c)
 
 add_executable(cub3D main.c ${SRCS})
 

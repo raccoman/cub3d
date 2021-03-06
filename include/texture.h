@@ -12,8 +12,8 @@ typedef struct	s_texture_data
 	int		bpp;
 	int		line_length;
 	int		endian;
-	int		texture_width;
-	int		texture_height;
+	int		width;
+	int		height;
 }				t_texture_data;
 
 typedef struct	s_textures

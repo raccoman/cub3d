@@ -12,6 +12,7 @@ int	init_game(t_game *game)
 	mlx_hook(game->manager.window, 3, 1L << 1, &onKeyRelease, game);
 	mlx_hook(game->manager.window, 17, 0, &onWindowClose, game);
 	mlx_mouse_hook(game->manager.window, &onMouseClick, game);
+	mlx_loop_hook(game->manager.instance, &onGameLoop, game);
 	return (TRUE);
 }
 
@@ -24,6 +25,9 @@ int	load_textures(t_game *game)
 	{
 		if (!load_texture(game->manager.instance, &game->textures.environment[i], game->settings.env_texture_path[i]))
 			return (FALSE);
+
+		free(game->settings.env_texture_path[i]);
+		game->settings.env_texture_path[i] = NULL;
 		i++;
 	}
 	i = 0;
@@ -33,6 +37,11 @@ int	load_textures(t_game *game)
 			return (FALSE);
 		if (!load_texture(game->manager.instance, &game->textures.closeup_pokemon[i], game->settings.pokemon_data[i].closeup_texture_path))
 			return (FALSE);
+
+		free(game->settings.pokemon_data[i].texture_path);
+		free(game->settings.pokemon_data[i].closeup_texture_path);
+		game->settings.pokemon_data[i].texture_path = NULL;
+		game->settings.pokemon_data[i].closeup_texture_path = NULL;
 		i++;
 	}
 	return (TRUE);
@@ -40,22 +49,9 @@ int	load_textures(t_game *game)
 
 int	run_game(t_game *game)
 {
-	int i;
-
+	init_player(game->settings, &game->player);
+	game->timer.last_update = current_milliseconds(&game->timer);
 	mlx_loop(game->manager.instance);
-	game->manager.running = TRUE;
-
-	set_current_timer(&game->timer);
-	while (game->manager.running)
-	{
-		i = 0;
-		update_timer(&game->timer);
-		while (i < game->timer.elapsed_ticks)
-		{
-			run_tick(game);
-			i++;
-		}
-	}
 	return (TRUE);
 }
 

@@ -36,18 +36,18 @@ void	ft_glClear(void *instance, void *window)
 void	ft_glBegin(void *instance, int width, int height, int mask)
 {
 	data.mask = mask;
-	data.img = mlx_new_image(instance, width, height);
-	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+	data.image = mlx_new_image(instance, width, height);
+	data.address = mlx_get_data_addr(data.image, &data.bpp, &data.line_length, &data.endian);
 }
 
 void	ft_glEnd(void *instance, void *window, int x, int y)
 {
-	if (data.img == NULL)
+	if (data.image == NULL)
 		return;
 
-	mlx_put_image_to_window(instance, window, data.img, x, y);
-	mlx_destroy_image(instance, data.img);
-	data.img = NULL;
+	mlx_put_image_to_window(instance, window, data.image, x, y);
+	mlx_destroy_image(instance, data.image);
+	data.image = NULL;
 }
 
 uint32_t	ft_glGetPixelColor(int x, int y, t_texture_data texture)
@@ -58,14 +58,14 @@ uint32_t	ft_glGetPixelColor(int x, int y, t_texture_data texture)
 	return (*(unsigned int*)dst);
 }
 
-void	ft_glPixel(t_vector point, unsigned int color)
+void ft_glPixel(int x, int y, uint32_t color)
 {
 
 	if (!ft_is_rgb_mask(color, data.mask))
 	{
 		char *dst;
 
-		dst = data.addr + ((int) point.z * data.line_length + (int) point.x * (data.bits_per_pixel / 8));
+		dst = data.address + ((int) y * data.line_length + (int) x * (data.bpp / 8));
 		*(unsigned int *)dst = color;
 	}
 }
@@ -79,7 +79,7 @@ void	ft_glRectangle(t_vector origin, int width, int height, int color)
 		origin.x = xo;
 		while (origin.x < xo + width)
 		{
-			ft_glPixel(origin, color);
+			ft_glPixel((int)origin.x, (int)origin.z, color);
 			origin.x++;
 		}
 		origin.z++;
@@ -88,8 +88,8 @@ void	ft_glRectangle(t_vector origin, int width, int height, int color)
 
 void	ft_glRoundedRectangle(t_vector origin, int radius, int width, int height, int color)
 {
-	int x = origin.x;
-	int z = origin.z;
+	int x = (int)origin.x;
+	int z = (int)origin.z;
 
 	ft_glFilledCircle(new_vector(x + radius, z + radius), radius, color);
 	ft_glFilledCircle(new_vector(x + radius + width - radius * 2, z + radius), radius, color);
@@ -106,28 +106,28 @@ void	ft_glRectangleTextured(t_vector origin, int width, int height, t_texture_da
 	int zo = (int)origin.z;
 	int xo = (int)origin.x;
 
-	double width_r = texture.texture_width / (double) width;
-	double height_r = texture.texture_height / (double) height;
+	double width_r = texture.width / (double) width;
+	double height_r = texture.height / (double) height;
 
 	while (origin.z < zo + height)
 	{
 		origin.x = xo;
 		while (origin.x < xo + width)
 		{
-			ft_glPixel(origin, ft_glGetPixelColor((fabs(origin.x - xo) * width_r), fabs(origin.z - zo) * height_r, texture));
+			ft_glPixel((int)origin.x, (int)origin.z, ft_glGetPixelColor((int)(fabs(origin.x - xo) * width_r), (int)(fabs(origin.z - zo) * height_r), texture));
 			origin.x++;
 		}
 		origin.z++;
 	}
 }
-
+/*
 void	ft_glSkyBox(int offsetx, t_texture texture)
 {
 	int x;
 	int y = 0;
 
-	double width_r = data.textures[texture].texture_width / (double) RESOLUTION_WIDTH;
-	double height_r = data.textures[texture].texture_height / (double) RESOLUTION_HEIGHT;
+	double width_r = data.textures[texture].width / (double) RESOLUTION_WIDTH;
+	double height_r = data.textures[texture].height / (double) RESOLUTION_HEIGHT;
 
 	while (y < RESOLUTION_HEIGHT / 2)
 	{
@@ -151,14 +151,14 @@ void	ft_glSkyBox(int offsetx, t_texture texture)
 		}
 		y++;
 	}
-}
+}*/
 
 void	ft_glFilledCircle(t_vector origin, int radius, int color)
 {
 	for(int z = -radius; z <= radius; z++)
 		for (int x = -radius; x <= radius; x++)
 			if (x * x + z * z <= radius * radius)
-				ft_glPixel(new_vector(origin.x + x, origin.z + z), color);
+				ft_glPixel((int)(origin.x + x), (int)(origin.z + z), color);
 }
 
 void	ft_glCircle(t_vector origin, int radius, int color)
@@ -167,6 +167,6 @@ void	ft_glCircle(t_vector origin, int radius, int color)
 	{
 		double x = sin(((i * M_PI) / 180)) * radius;
 		double z = cos(((i * M_PI) / 180)) * radius;
-		ft_glPixel(new_vector(origin.x + x, origin.z + z), color);
+		ft_glPixel((int)(origin.x + x), (int)(origin.z + z), color);
 	}
 }

@@ -8,10 +8,10 @@
 
 typedef struct	s_data
 {
-	int			mask;
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
+	uint32_t	mask;
+	void		*image;
+	char		*address;
+	int			bpp;
 	int			line_length;
 	int			endian;
 }				t_data;
@@ -30,7 +30,7 @@ void			ft_glEnd(void *instance, void *window, int x, int y);
 
 uint32_t		ft_glGetPixelColor(int x, int y, t_texture_data texture);
 
-void			ft_glPixel(t_vector point, unsigned int color);
+void			ft_glPixel(int x, int y, uint32_t color);
 
 void			ft_glRectangle(t_vector origin, int width, int height, int color);
 
@@ -41,7 +41,5 @@ void			ft_glRectangleTextured(t_vector origin, int width, int height, t_texture_
 void			ft_glCircle(t_vector origin, int radius, int color);
 
 void			ft_glFilledCircle(t_vector origin, int radius, int color);
-
-void			ft_glSkyBox(int offsetx, t_texture_data texture);
 
 #endif

@@ -36,4 +36,6 @@ char	*ft_terminate_at(char *string, char *charset);
 
 char	*ft_concatenate(char *s1, char *s2);
 
+int		ft_find(char *string, char *charset);
+
 #endif

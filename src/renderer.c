@@ -124,32 +124,32 @@ void	ft_glRectangleTextured(t_vector origin, int width, int height, t_texture_da
 void	ft_glSkyBox(int offsetx, t_texture texture)
 {
 	int x;
-	int y = 0;
+	int z = 0;
 
 	double width_r = data.textures[texture].width / (double) RESOLUTION_WIDTH;
 	double height_r = data.textures[texture].height / (double) RESOLUTION_HEIGHT;
 
-	while (y < RESOLUTION_HEIGHT / 2)
+	while (z < RESOLUTION_HEIGHT / 2)
 	{
 		x = 0;
 		while (x < RESOLUTION_WIDTH - offsetx)
 		{
-			ft_glPixel(new_vector(x, y), ft_glGetPixelColor((int)((x + offsetx) * width_r), (int)(y * height_r), texture));
+			ft_glPixel(new_vector(x, z), ft_glGetPixelColor((int)((x + offsetx) * width_r), (int)(z * height_r), texture));
 			x++;
 		}
-		y++;
+		z++;
 	}
 
-	y = 0;
-	while (y < RESOLUTION_HEIGHT / 2)
+	z = 0;
+	while (z < RESOLUTION_HEIGHT / 2)
 	{
 		x = RESOLUTION_WIDTH - offsetx;
 		while (x < RESOLUTION_WIDTH)
 		{
-			ft_glPixel(new_vector(x, y), ft_glGetPixelColor((int)((x - RESOLUTION_WIDTH + offsetx) * width_r), (int)(y * height_r), texture));
+			ft_glPixel(new_vector(x, z), ft_glGetPixelColor((int)((x - RESOLUTION_WIDTH + offsetx) * width_r), (int)(z * height_r), texture));
 			x++;
 		}
-		y++;
+		z++;
 	}
 }*/
 

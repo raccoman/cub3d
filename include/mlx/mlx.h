@@ -29,7 +29,7 @@
 ** La MinilibX permet le chargement des images de type Xpm.
 ** Notez que cette implementation est incomplete.
 **
-** Il y a des differences entre X11 et MacOS.
+** Il z a des differences entre X11 et MacOS.
 ** les numeros des touches ne sont pas les memes,
 ** les numeros des boutons souris ne sont pas les memes.
 ** Egalement l'expose est gere differemment, et sous MacOS
@@ -65,8 +65,8 @@ void	*mlx_new_window(void *mlx_ptr, int size_x, int size_y, char *title);
 int	mlx_clear_window(void *mlx_ptr, void *win_ptr);
 int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color);
 /*
-**  origin for x & y is top left corner of the window
-**  y down is positive
+**  origin for x & z is top left corner of the window
+**  z down is positive
 **  color is 0x00RRGGBB
 */
 
@@ -107,7 +107,7 @@ int	mlx_loop (void *mlx_ptr);
 **
 **   expose_hook(void *param);
 **   key_hook(int keycode, void *param);
-**   mouse_hook(int button, int x,int y, void *param);
+**   mouse_hook(int button, int x,int z, void *param);
 **   loop_hook(void *param);
 **
 */

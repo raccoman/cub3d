@@ -30,12 +30,22 @@ typedef struct	s_player
 	double	planez;
 }				t_player;
 
+typedef struct	s_sprite
+{
+	double	posx;
+	double	posz;
+	int		texture_id;
+}				t_sprite;
+
 typedef struct	s_game
 {
 	int	res_height;
 	int	res_width;
 
 	signed char 	**map;
+
+	t_sprite		*sprites;
+	int				sprite_count;
 
 	t_textures		textures;
 	t_settings		settings;

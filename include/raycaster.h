@@ -56,4 +56,29 @@ typedef struct	s_hraycasting
 	t_texture_data	texture;
 }				t_hraycasting;
 
+typedef struct	s_sraycasting
+{
+	int		i;
+	double	spritex;
+	double	spritez;
+	double	invdet;
+	double	transformx;
+	double	transformz;
+	int		spritescreenx;
+	int		spriteheight;
+	int		drawstartz;
+	int		drawendz;
+	int		spritewidth;
+	int		drawstartx;
+	int		drawendx;
+	int		stripe;
+	int		d;
+	int		z;
+	int		texturex;
+	int		texturey;
+	double	ybuffer[5120];
+	uint32_t		color;
+	t_texture_data	texture;
+}				t_sraycasting;
+
 #endif

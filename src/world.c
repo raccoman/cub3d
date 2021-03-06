@@ -8,7 +8,9 @@ int				run_render_tick(t_game *game)
 {
 	t_hraycasting	hraycasting;
 	t_vraycasting	vraycasting;
+	t_sraycasting	sraycasting;
 
+	hraycasting.texture = game->textures.environment[4];
 	hraycasting.y = game->res_height / 2;
 	while (hraycasting.y < game->res_height)
 	{
@@ -26,8 +28,6 @@ int				run_render_tick(t_game *game)
 
 		hraycasting.floorx = PLAYER.posx + hraycasting.rowdistance * hraycasting.dirx;
 		hraycasting.floorz = PLAYER.posz + hraycasting.rowdistance * hraycasting.dirz;
-
-		hraycasting.texture = game->textures.environment[4];
 
 		hraycasting.x = 0;
 		while (hraycasting.x < game->res_width)
@@ -52,6 +52,7 @@ int				run_render_tick(t_game *game)
 		hraycasting.y++;
 	}
 
+	vraycasting.texture = game->textures.environment[0]; //Change to add NO(0) SO(1) WE(2) EA(3)
 	vraycasting.x = 0;
 	while (vraycasting.x < game->res_width)
 	{
@@ -101,7 +102,9 @@ int				run_render_tick(t_game *game)
 				vraycasting.side = 1;
 			}
 			if (game->map[vraycasting.mapx][vraycasting.mapz] == '1')
+			{
 				vraycasting.hit = 1;
+			}
 		}
 
 		if (vraycasting.side == 0)
@@ -126,8 +129,6 @@ int				run_render_tick(t_game *game)
 
 		vraycasting.wallx -= floor(vraycasting.wallx);
 
-		vraycasting.texture = game->textures.environment[0]; //Change to add NO(0) SO(1) WE(2) EA(3)
-
 		vraycasting.texturex = (int)(vraycasting.wallx * (double)vraycasting.texture.width);
 
 		if ((vraycasting.side == 0 && vraycasting.dirx > 0) || (vraycasting.side == 1 && vraycasting.dirz < 0))
@@ -146,8 +147,59 @@ int				run_render_tick(t_game *game)
 			ft_glPixel(vraycasting.x, vraycasting.y, vraycasting.color);
 			vraycasting.y++;
 		}
-
+		sraycasting.ybuffer[vraycasting.x] = vraycasting.perpwalldist;
 		vraycasting.x++;
+	}
+
+	sraycasting.i = 0;
+	while (sraycasting.i < game->sprite_count)
+	{
+		sraycasting.spritex = game->sprites[sraycasting.i].posx - PLAYER.posx;
+		sraycasting.spritez = game->sprites[sraycasting.i].posz - PLAYER.posz;
+
+		printf("Sprite pos %f %f\n", game->sprites[sraycasting.i].posx, game->sprites[sraycasting.i].posz);
+
+		sraycasting.invdet = 1.0 / (PLAYER.planex * PLAYER.dirz - PLAYER.dirx * PLAYER.planez);
+
+		sraycasting.transformx = sraycasting.invdet * (PLAYER.dirz * sraycasting.spritex - PLAYER.dirx * sraycasting.spritez);
+		sraycasting.transformz = sraycasting.invdet * (-PLAYER.planez * sraycasting.spritex + PLAYER.planex * sraycasting.spritez);
+
+		sraycasting.spritescreenx = (int)((game->res_width / 2.0) * (1 + sraycasting.transformx / sraycasting.transformz));
+
+		sraycasting.spriteheight = abs((int) (game->res_height / sraycasting.transformz));
+
+		sraycasting.drawstartz = ft_max(0, -sraycasting.spriteheight / 2 + game->res_height / 2);
+		sraycasting.drawendz = ft_min(game->res_height - 1, sraycasting.spriteheight / 2 + game->res_height / 2);
+
+		sraycasting.spritewidth = abs((int) (game->res_height / sraycasting.transformz));
+
+		sraycasting.drawstartx = ft_max(0, -sraycasting.spritewidth / 2 + sraycasting.spritescreenx);
+		sraycasting.drawendx = ft_min(game->res_width - 1, sraycasting.spritewidth / 2 + sraycasting.spritescreenx);
+
+		sraycasting.texture = game->textures.environment[game->sprites[sraycasting.i].texture_id];
+
+		sraycasting.stripe = sraycasting.drawstartx;
+		while (sraycasting.stripe < sraycasting.drawendx)
+		{
+			sraycasting.texturex = (int)(256 * (sraycasting.stripe - (-sraycasting.spritewidth / 2 + sraycasting.spritescreenx)) * sraycasting.texture.width / sraycasting.spritewidth) / 256;
+			if (sraycasting.transformz > 0 && sraycasting.transformz < sraycasting.ybuffer[sraycasting.stripe])
+			{
+				sraycasting.z = sraycasting.drawstartz;
+				while (sraycasting.z < sraycasting.drawendz)
+				{
+					sraycasting.d = sraycasting.z * 256 - game->res_height * 128 + sraycasting.spriteheight * 128;
+					sraycasting.texturey = sraycasting.d * sraycasting.texture.height / sraycasting.spriteheight / 256;
+
+					sraycasting.color = ((unsigned int *)sraycasting.texture.address)[sraycasting.texture.width * sraycasting.texturey + sraycasting.texturex];
+					ft_glPixel(sraycasting.stripe, sraycasting.z, sraycasting.color);
+
+					sraycasting.z++;
+				}
+			}
+			sraycasting.stripe++;
+		}
+
+		sraycasting.i++;
 	}
 
 	return (TRUE);
@@ -157,10 +209,10 @@ int				run_tick(t_game *game)
 {
 	ft_glBegin(game->manager.instance, game->res_width, game->res_height, ft_rgb(0, 255, 0));
 
-	if (!run_render_tick(game))
+	if (!run_player_tick(game))
 		return (FALSE);
 
-	if (!run_player_tick(game))
+	if (!run_render_tick(game))
 		return (FALSE);
 
 	ft_glEnd(game->manager.instance, game->manager.window, 0, 0);

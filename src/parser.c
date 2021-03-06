@@ -48,15 +48,18 @@ int	parse_pokemon(t_game *game, char *string)
 int	parse_map(t_game *game, char *string)
 {
 	int			i;
+	int			k;
 	static int	size = 0;
 	signed char	**new_map;
 	int			spawn;
+	t_sprite	*new_sprites;
+	int			sprite;
 
 	size++;
 	if (!(new_map = malloc(sizeof(signed char *) * (size + 1))))
 		return (FALSE);
 	i = 0;
-	while (game->map != NULL && game->map[i] != NULL)
+	while (i < size - 1)
 	{
 		new_map[i] = game->map[i];
 		i++;
@@ -77,6 +80,31 @@ int	parse_map(t_game *game, char *string)
 		else if (string[spawn] == 'E')
 			game->settings.direction = EAST;
 		string[spawn] = '0';
+	}
+
+	while ((sprite = ft_find(string, "23")) >= 0)
+	{
+		game->sprite_count++;
+		if (!(new_sprites = malloc(sizeof(t_sprite) * (game->sprite_count + 1))))
+			return (FALSE);
+
+		k = 0;
+		while (k < (game->sprite_count - 1))
+		{
+			new_sprites[k] = game->sprites[k];
+			k++;
+		}
+		new_sprites[k].posx = i + 0.5;
+		new_sprites[k].posz = sprite + 0.5;
+
+		if (string[sprite] == '2')
+			new_sprites[k].texture_id = 6;
+		else if (string[sprite] == '3')
+			new_sprites[k].texture_id = 7;
+
+		free(game->sprites);
+		game->sprites = new_sprites;
+		string[sprite] = '0';
 	}
 
 	new_map[i] = (signed char *)ft_strdup(string);
@@ -130,6 +158,8 @@ int	parse_settings(t_game *game, const char *path)
 	 * This is a shit
 	 */
 	game->map = NULL;
+	game->sprites = NULL;
+	game->sprite_count = 0;
 	game->settings.spawn = new_vector(-1, -1);
 	if (!ft_contains_only(line,"01234NSWE ") || !parse_map(game, line))
 		return (FALSE);
@@ -147,10 +177,10 @@ int	parse_settings(t_game *game, const char *path)
 		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
 	for (int i = 0; i < game->settings.pokemon_count; ++i)
 		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pokemon_data[i].name, game->settings.pokemon_data[i].texture_path, game->settings.pokemon_data[i].closeup_texture_path);
+	 */
 	 for (int i = 0; game->map[i] != NULL ; ++i) {
 		printf("%s\n", game->map[i]);
 	}
 	 printf("Spawn: %f %f %d", game->settings.spawn.x, game->settings.spawn.z, game->settings.direction);
-	*/
 	return (TRUE);
 }

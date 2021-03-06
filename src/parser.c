@@ -177,10 +177,9 @@ int	parse_settings(t_game *game, const char *path)
 		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
 	for (int i = 0; i < game->settings.pokemon_count; ++i)
 		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pokemon_data[i].name, game->settings.pokemon_data[i].texture_path, game->settings.pokemon_data[i].closeup_texture_path);
-	 */
 	 for (int i = 0; game->map[i] != NULL ; ++i) {
 		printf("%s\n", game->map[i]);
 	}
-	 printf("Spawn: %f %f %d", game->settings.spawn.x, game->settings.spawn.z, game->settings.direction);
+	 printf("Spawn: %f %f %d", game->settings.spawn.x, game->settings.spawn.z, game->settings.direction);*/
 	return (TRUE);
 }

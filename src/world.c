@@ -157,8 +157,6 @@ int				run_render_tick(t_game *game)
 		sraycasting.spritex = game->sprites[sraycasting.i].posx - PLAYER.posx;
 		sraycasting.spritez = game->sprites[sraycasting.i].posz - PLAYER.posz;
 
-		printf("Sprite pos %f %f\n", game->sprites[sraycasting.i].posx, game->sprites[sraycasting.i].posz);
-
 		sraycasting.invdet = 1.0 / (PLAYER.planex * PLAYER.dirz - PLAYER.dirx * PLAYER.planez);
 
 		sraycasting.transformx = sraycasting.invdet * (PLAYER.dirz * sraycasting.spritex - PLAYER.dirx * sraycasting.spritez);

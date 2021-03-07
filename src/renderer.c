@@ -137,14 +137,14 @@ void	ft_glSkyBox(int offsetx, int offsety, int res_width, int res_height, t_text
 		x = 0;
 		while (x < res_width - offsetx)
 		{
-			ft_glPixel(x, horizon, ft_glGetPixelColor((int)((x + offsetx) * width_r), (int)(z * height_r), texture));
+			ft_glPixel(x, z + horizon - z, ft_glGetPixelColor((int)((x + offsetx) * width_r), (int)(z * height_r), texture));
 			x++;
 		}
 
 		x = res_width - offsetx;
 		while (x < res_width)
 		{
-			ft_glPixel(x, horizon, ft_glGetPixelColor((int)((x - res_width + offsetx) * width_r), (int)(z * height_r), texture));
+			ft_glPixel(x, z + horizon - z, ft_glGetPixelColor((int)((x - res_width + offsetx) * width_r), (int)(z * height_r), texture));
 			x++;
 		}
 

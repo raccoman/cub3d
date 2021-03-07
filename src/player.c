@@ -9,6 +9,7 @@ void	init_player(t_settings settings, t_player *player)
 {
 	player->posx = settings.spawn.x;
 	player->posz = settings.spawn.z;
+	player->posy = 0;
 
 	if (settings.direction == NORTH)
 	{
@@ -39,56 +40,55 @@ void	init_player(t_settings settings, t_player *player)
 		player->planez = 0;
 	}
 
-
+	player->rotatespeed = 0.1;
+	player->movespeed = 0.1;
 }
 
 int		run_player_tick(t_game *game)
 {
-	double movespeed = 0.1;
-	double rotatespeed = 0.1;
 
 	if (IS_MOVING(KEY_W))
 	{
-		if (COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirx * movespeed * 3) == '0')
-			PLAYER.posx += PLAYER.dirx * movespeed;
+		if (COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirx * PLAYER.movespeed * 3) == '0')
+			PLAYER.posx += PLAYER.dirx * PLAYER.movespeed;
 
-		if (COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirz * movespeed * 3) == '0')
-			PLAYER.posz += PLAYER.dirz * movespeed;
+		if (COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirz * PLAYER.movespeed * 3) == '0')
+			PLAYER.posz += PLAYER.dirz * PLAYER.movespeed;
 	}
 
 	if (IS_MOVING(KEY_S))
 	{
-		if (COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirx * movespeed * 0.8 * 3) == '0')
-			PLAYER.posx -= PLAYER.dirx * movespeed * 0.8;
+		if (COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirx * PLAYER.movespeed * 0.8 * 3) == '0')
+			PLAYER.posx -= PLAYER.dirx * PLAYER.movespeed * 0.8;
 
-		if (COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirz * movespeed * 0.8 * 3) == '0')
-			PLAYER.posz -= PLAYER.dirz * movespeed * 0.8;
+		if (COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirz * PLAYER.movespeed * 0.8 * 3) == '0')
+			PLAYER.posz -= PLAYER.dirz * PLAYER.movespeed * 0.8;
 	}
 
 	if (IS_MOVING(KEY_D))
 	{
-		if (COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirx * -movespeed * 3) == '0')
-			PLAYER.posz += PLAYER.dirx * -movespeed;
-		if (COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirz * movespeed * 3) == '0')
-			PLAYER.posx += PLAYER.dirz * movespeed;
+		if (COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirx * -PLAYER.movespeed * 3) == '0')
+			PLAYER.posz += PLAYER.dirx * -PLAYER.movespeed;
+		if (COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirz * PLAYER.movespeed * 3) == '0')
+			PLAYER.posx += PLAYER.dirz * PLAYER.movespeed;
 	}
 
 	if (IS_MOVING(KEY_A))
 	{
-		if (COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirx * -movespeed * 3) == '0')
-			PLAYER.posz -= PLAYER.dirx * -movespeed;
-		if (COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirz * movespeed * 3) == '0')
-			PLAYER.posx -= PLAYER.dirz * movespeed;
+		if (COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirx * -PLAYER.movespeed * 3) == '0')
+			PLAYER.posz -= PLAYER.dirx * -PLAYER.movespeed;
+		if (COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirz * PLAYER.movespeed * 3) == '0')
+			PLAYER.posx -= PLAYER.dirz * PLAYER.movespeed;
 	}
 
-	if (IS_MOVING(KEY_R_ARROW))
+	if (IS_MOVING(KEY_SPACE) && PLAYER.posy == 0)
 	{
-		rotate_player(game, -rotatespeed);
+		//jump
 	}
 
-	if (IS_MOVING(KEY_L_ARROW))
+	if (IS_MOVING(KEY_L_SHIFT) && PLAYER.posy == 0)
 	{
-		rotate_player(game, rotatespeed);
+		//jump
 	}
 
 	return (TRUE);

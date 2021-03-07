@@ -64,6 +64,7 @@ typedef struct	s_sraycasting
 	double	invdet;
 	double	transformx;
 	double	transformz;
+	int		vmovescreen;
 	int		spritescreenx;
 	int		spriteheight;
 	int		drawstartz;

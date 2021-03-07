@@ -24,10 +24,15 @@ typedef struct	s_player
 {
 	double	posx;
 	double	posz;
+	double	posy;
 	double	dirx;
 	double	dirz;
 	double	planex;
 	double	planez;
+	int		pitch;
+	int		yaw;
+	double	movespeed;
+	double	rotatespeed;
 }				t_player;
 
 typedef struct	s_sprite
@@ -81,5 +86,7 @@ void			init_player(t_settings settings, t_player *player);
 int				run_player_tick(t_game *game);
 
 int				rotate_player(t_game *game, double rotatespeed);
+
+int				run_mouse_tick(t_game *game);
 
 #endif

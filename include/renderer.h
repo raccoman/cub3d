@@ -42,4 +42,6 @@ void			ft_glCircle(t_vector origin, int radius, int color);
 
 void			ft_glFilledCircle(t_vector origin, int radius, int color);
 
+void			ft_glSkyBox(int offsetx, int offsety, int res_width, int res_height, t_texture_data texture);
+
 #endif

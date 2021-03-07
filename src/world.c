@@ -10,8 +10,10 @@ int				run_render_tick(t_game *game)
 	t_vraycasting	vraycasting;
 	t_sraycasting	sraycasting;
 
+	ft_glSkyBox(game->player.yaw, game->player.pitch, game->res_width, game->res_height, game->textures.environment[5]);
+
 	hraycasting.texture = game->textures.environment[4];
-	hraycasting.y = game->res_height / 2;
+	hraycasting.y = game->res_height / 2 + game->player.pitch;
 	while (hraycasting.y < game->res_height)
 	{
 		hraycasting.dirx = PLAYER.dirx - PLAYER.planex;
@@ -19,7 +21,7 @@ int				run_render_tick(t_game *game)
 		hraycasting.dirx1 = PLAYER.dirx + PLAYER.planex;
 		hraycasting.dirz1 = PLAYER.dirz + PLAYER.planez;
 
-		hraycasting.p = hraycasting.y - game->res_height / 2;
+		hraycasting.p = hraycasting.y - game->res_height / 2 - PLAYER.pitch;
 		hraycasting.posy = game->res_height / 2.0;
 		hraycasting.rowdistance = hraycasting.posy / hraycasting.p;
 
@@ -114,11 +116,11 @@ int				run_render_tick(t_game *game)
 
 		vraycasting.line_height = (int)(game->res_height / vraycasting.perpwalldist);
 
-		vraycasting.draw_start = -vraycasting.line_height / 2 + game->res_height / 2;
+		vraycasting.draw_start = -vraycasting.line_height / 2 + game->res_height / 2 + PLAYER.pitch + (int)(PLAYER.posy / vraycasting.perpwalldist);
 		if(vraycasting.draw_start < 0)
 			vraycasting.draw_start = 0;
 
-		vraycasting.draw_end = vraycasting.line_height / 2 + game->res_height / 2;
+		vraycasting.draw_end = vraycasting.line_height / 2 + game->res_height / 2 + PLAYER.pitch + (int)(PLAYER.posy / vraycasting.perpwalldist);
 		if (vraycasting.draw_end > game->res_height)
 			vraycasting.draw_end = game->res_height;
 
@@ -135,7 +137,7 @@ int				run_render_tick(t_game *game)
 			vraycasting.texturex = vraycasting.texture.width - vraycasting.texturex - 1;
 
 		vraycasting.step = (double)vraycasting.texture.height / (double)vraycasting.line_height;
-		vraycasting.text_pos = (vraycasting.draw_start - game->res_height / 2.0 + vraycasting.line_height / 2.0) * vraycasting.step;
+		vraycasting.text_pos = (vraycasting.draw_start - (int)PLAYER.pitch - (int)(PLAYER.posy / vraycasting.perpwalldist) - game->res_height / 2.0 + vraycasting.line_height / 2.0) * vraycasting.step;
 
 		vraycasting.y = vraycasting.draw_start;
 		while (vraycasting.y < vraycasting.draw_end)
@@ -162,12 +164,13 @@ int				run_render_tick(t_game *game)
 		sraycasting.transformx = sraycasting.invdet * (PLAYER.dirz * sraycasting.spritex - PLAYER.dirx * sraycasting.spritez);
 		sraycasting.transformz = sraycasting.invdet * (-PLAYER.planez * sraycasting.spritex + PLAYER.planex * sraycasting.spritez);
 
+		sraycasting.vmovescreen = PLAYER.pitch + (int)(PLAYER.posy / vraycasting.perpwalldist);
 		sraycasting.spritescreenx = (int)((game->res_width / 2.0) * (1 + sraycasting.transformx / sraycasting.transformz));
 
 		sraycasting.spriteheight = abs((int) (game->res_height / sraycasting.transformz));
 
-		sraycasting.drawstartz = ft_max(0, -sraycasting.spriteheight / 2 + game->res_height / 2);
-		sraycasting.drawendz = ft_min(game->res_height - 1, sraycasting.spriteheight / 2 + game->res_height / 2);
+		sraycasting.drawstartz = ft_max(0, -sraycasting.spriteheight / 2 + game->res_height / 2 + sraycasting.vmovescreen);
+		sraycasting.drawendz = ft_min(game->res_height - 1, sraycasting.spriteheight / 2 + game->res_height / 2 + sraycasting.vmovescreen);
 
 		sraycasting.spritewidth = abs((int) (game->res_height / sraycasting.transformz));
 
@@ -185,7 +188,7 @@ int				run_render_tick(t_game *game)
 				sraycasting.z = sraycasting.drawstartz;
 				while (sraycasting.z < sraycasting.drawendz)
 				{
-					sraycasting.d = sraycasting.z * 256 - game->res_height * 128 + sraycasting.spriteheight * 128;
+					sraycasting.d = (sraycasting.z - sraycasting.vmovescreen) * 256 - game->res_height * 128 + sraycasting.spriteheight * 128;
 					sraycasting.texturey = sraycasting.d * sraycasting.texture.height / sraycasting.spriteheight / 256;
 
 					sraycasting.color = ((unsigned int *)sraycasting.texture.address)[sraycasting.texture.width * sraycasting.texturey + sraycasting.texturex];
@@ -205,7 +208,11 @@ int				run_render_tick(t_game *game)
 
 int				run_tick(t_game *game)
 {
-	ft_glBegin(game->manager.instance, game->res_width, game->res_height, ft_rgb(0, 255, 0));
+	ft_glClear(game->manager.instance, game->manager.window);
+	ft_glBegin(game->manager.instance, game->res_width, game->res_height, 0x00FF00);
+
+	if (!run_mouse_tick(game))
+		return (FALSE);
 
 	if (!run_player_tick(game))
 		return (FALSE);
@@ -216,4 +223,3 @@ int				run_tick(t_game *game)
 	ft_glEnd(game->manager.instance, game->manager.window, 0, 0);
 	return (TRUE);
 }
-

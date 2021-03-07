@@ -13,6 +13,7 @@ int	init_game(t_game *game)
 	mlx_hook(game->manager.window, 17, 0, &onWindowClose, game);
 	mlx_mouse_hook(game->manager.window, &onMouseClick, game);
 	mlx_loop_hook(game->manager.instance, &onGameLoop, game);
+	mlx_mouse_hide();
 	return (TRUE);
 }
 

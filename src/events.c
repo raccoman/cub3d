@@ -7,6 +7,9 @@ int				onWindowClose(t_game *game)
 
 int				onKeyPress(int key, t_game *game)
 {
+	if (key == KEY_ESC)
+		exit(1);
+
 	game->manager.inputs[key] = TRUE;
 	return (1);
 }

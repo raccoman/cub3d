@@ -22,7 +22,7 @@ set(SRCS
         src/world.c
         src/renderer.c
         src/utils.c
-        src/player.c)
+        src/player.c src/mouse.c)
 
 add_executable(cub3D main.c ${SRCS})
 

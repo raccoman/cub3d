@@ -21,7 +21,6 @@ int	run_mouse_tick(t_game *game)
 
 		if (game->player.yaw > game->res_width)
 			game->player.yaw = 0;
-
 		if (game->player.yaw < 0)
 			game->player.yaw = game->res_width;
 	}

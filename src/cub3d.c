@@ -50,8 +50,8 @@ int	load_textures(t_game *game)
 
 int	run_game(t_game *game)
 {
-	init_player(game->settings, &game->player);
-	game->timer.last_update = current_milliseconds(&game->timer);
+	init_player(game->settings, &game->player, &game->animation);
+	game->timer.last_update = current_milliseconds();
 	mlx_loop(game->manager.instance);
 	return (TRUE);
 }

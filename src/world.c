@@ -10,10 +10,10 @@ int				run_render_tick(t_game *game)
 	t_vraycasting	vraycasting;
 	t_sraycasting	sraycasting;
 
-	ft_glSkyBox(game->player.yaw, game->player.pitch, game->res_width, game->res_height, game->textures.environment[5]);
+	ft_glSkyBox(game->player.yaw, (int)(game->player.pitch + game->player.posy), game->res_width, game->res_height, game->textures.environment[5]);
 
 	hraycasting.texture = game->textures.environment[4];
-	hraycasting.y = game->res_height / 2 + game->player.pitch;
+	hraycasting.y = game->res_height / 2 + PLAYER.pitch;
 	while (hraycasting.y < game->res_height)
 	{
 		hraycasting.dirx = PLAYER.dirx - PLAYER.planex;
@@ -116,11 +116,11 @@ int				run_render_tick(t_game *game)
 
 		vraycasting.line_height = (int)(game->res_height / vraycasting.perpwalldist);
 
-		vraycasting.draw_start = -vraycasting.line_height / 2 + game->res_height / 2 + PLAYER.pitch + (int)(PLAYER.posy / vraycasting.perpwalldist);
+		vraycasting.draw_start = (int)(-vraycasting.line_height * 1.4 + (double)game->res_height / 2 + PLAYER.pitch);
 		if(vraycasting.draw_start < 0)
 			vraycasting.draw_start = 0;
 
-		vraycasting.draw_end = vraycasting.line_height / 2 + game->res_height / 2 + PLAYER.pitch + (int)(PLAYER.posy / vraycasting.perpwalldist);
+		vraycasting.draw_end = vraycasting.line_height / 2 + game->res_height / 2 + PLAYER.pitch;
 		if (vraycasting.draw_end > game->res_height)
 			vraycasting.draw_end = game->res_height;
 
@@ -136,8 +136,8 @@ int				run_render_tick(t_game *game)
 		if ((vraycasting.side == 0 && vraycasting.dirx > 0) || (vraycasting.side == 1 && vraycasting.dirz < 0))
 			vraycasting.texturex = vraycasting.texture.width - vraycasting.texturex - 1;
 
-		vraycasting.step = (double)vraycasting.texture.height / (double)vraycasting.line_height;
-		vraycasting.text_pos = (vraycasting.draw_start - (int)PLAYER.pitch - (int)(PLAYER.posy / vraycasting.perpwalldist) - game->res_height / 2.0 + vraycasting.line_height / 2.0) * vraycasting.step;
+		vraycasting.step = (double)vraycasting.texture.height / (double)vraycasting.line_height * .5;
+		vraycasting.text_pos = (vraycasting.draw_start - (int)PLAYER.pitch - game->res_height / 2.0 + vraycasting.line_height * 1.5) * vraycasting.step;
 
 		vraycasting.y = vraycasting.draw_start;
 		while (vraycasting.y < vraycasting.draw_end)
@@ -164,7 +164,7 @@ int				run_render_tick(t_game *game)
 		sraycasting.transformx = sraycasting.invdet * (PLAYER.dirz * sraycasting.spritex - PLAYER.dirx * sraycasting.spritez);
 		sraycasting.transformz = sraycasting.invdet * (-PLAYER.planez * sraycasting.spritex + PLAYER.planex * sraycasting.spritez);
 
-		sraycasting.vmovescreen = PLAYER.pitch + (int)(PLAYER.posy / vraycasting.perpwalldist);
+		sraycasting.vmovescreen = PLAYER.pitch;
 		sraycasting.spritescreenx = (int)((game->res_width / 2.0) * (1 + sraycasting.transformx / sraycasting.transformz));
 
 		sraycasting.spriteheight = abs((int) (game->res_height / sraycasting.transformz));

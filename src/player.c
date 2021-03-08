@@ -5,7 +5,7 @@
 #define COLLIDING_X_AXIS(x) game->map[(int)(x)][(int)PLAYER.posz]
 #define COLLIDING_Z_AXIS(z) game->map[(int)PLAYER.posx][(int)(z)]
 
-void	init_player(t_settings settings, t_player *player)
+void	init_player(t_settings settings, t_player *player, t_animation *animation)
 {
 	player->posx = settings.spawn.x;
 	player->posz = settings.spawn.z;
@@ -42,6 +42,7 @@ void	init_player(t_settings settings, t_player *player)
 
 	player->rotatespeed = 0.1;
 	player->movespeed = 0.1;
+	animation->walking = 1;
 }
 
 int		run_player_tick(t_game *game)
@@ -88,7 +89,16 @@ int		run_player_tick(t_game *game)
 
 	if (IS_MOVING(KEY_L_SHIFT) && PLAYER.posy == 0)
 	{
-		//jump
+		//crouch
+	}
+
+	if (IS_MOVING(KEY_W) || IS_MOVING(KEY_S) || IS_MOVING(KEY_A) || IS_MOVING(KEY_D))
+	{
+		if (current_milliseconds() - game->animation.walking_time >= 50L) {
+			game->animation.walking = -game->animation.walking;
+			PLAYER.posy += game->animation.walking * 10;
+			game->animation.walking_time = current_milliseconds();
+		}
 	}
 
 	return (TRUE);

@@ -2,7 +2,7 @@
 
 # define MILLIS_PER_TICK 50
 
-int64_t		current_milliseconds(t_timer *timer)
+int64_t		current_milliseconds()
 {
 	struct timespec	current_time;
 
@@ -14,7 +14,7 @@ void			update_timer(t_timer *timer)
 {
 	int64_t			current_millis;
 
-	current_millis = current_milliseconds(timer);
+	current_millis = current_milliseconds();
 	timer->elapsed_ticks = MIN(10, (current_millis - timer->last_update) / MILLIS_PER_TICK);
 	if (timer->elapsed_ticks != 0) timer->last_update = current_millis;
 }

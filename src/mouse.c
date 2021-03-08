@@ -16,7 +16,7 @@ int	run_mouse_tick(t_game *game)
 		max_rotatespeed = game->res_width * 0.5 / 1280.0;
 		rotate_player(game, difference * max_rotatespeed / game->res_width);
 
-		max_rotatespeed = game->res_width * 200.0 / 1280.0;
+		max_rotatespeed = game->res_width * 450 / 1280.0;
 		game->player.yaw += (int)(difference * -max_rotatespeed / game->res_width);
 
 		if (game->player.yaw > game->res_width)

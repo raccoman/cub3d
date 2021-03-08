@@ -35,6 +35,12 @@ typedef struct	s_player
 	double	rotatespeed;
 }				t_player;
 
+typedef struct	s_animation
+{
+	int		walking;
+	int64_t	walking_time;
+}				t_animation;
+
 typedef struct	s_sprite
 {
 	double	posx;
@@ -54,6 +60,7 @@ typedef struct	s_game
 
 	t_textures		textures;
 	t_settings		settings;
+	t_animation		animation;
 	t_player		player;
 	t_timer			timer;
 	t_manager		manager;
@@ -77,11 +84,11 @@ int				run_game(t_game *game);
 
 int				run_tick(t_game *game);
 
-int64_t			current_milliseconds(t_timer *timer);
+int64_t			current_milliseconds();
 
 void			update_timer(t_timer *timer);
 
-void			init_player(t_settings settings, t_player *player);
+void			init_player(t_settings settings, t_player *player, t_animation *animation);
 
 int				run_player_tick(t_game *game);
 

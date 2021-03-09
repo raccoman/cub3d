@@ -12,6 +12,7 @@ SOURCES =   atoi.c \
             terminate_at.c \
             concatenate.c \
             find.c \
+            random.c \
 
 HEADERS =   libft.h
 

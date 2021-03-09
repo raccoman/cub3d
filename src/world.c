@@ -10,7 +10,7 @@ int				run_render_tick(t_game *game)
 	t_vraycasting	vraycasting;
 	t_sraycasting	sraycasting;
 
-	ft_glSkyBox(game->player.yaw, (int)(game->player.pitch + game->player.posy), game->res_width, game->res_height, game->textures.environment[5]);
+	ft_glSkyBox(game->player.yaw, game->player.pitch, game->res_width, game->res_height, game->textures.environment[5]);
 
 	hraycasting.texture = game->textures.environment[4];
 	hraycasting.y = game->res_height / 2 + PLAYER.pitch;
@@ -156,6 +156,11 @@ int				run_render_tick(t_game *game)
 	sraycasting.i = 0;
 	while (sraycasting.i < game->sprite_count)
 	{
+		if (!game->sprites[sraycasting.i].present)
+		{
+			sraycasting.i++;
+			continue;
+		}
 		sraycasting.spritex = game->sprites[sraycasting.i].posx - PLAYER.posx;
 		sraycasting.spritez = game->sprites[sraycasting.i].posz - PLAYER.posz;
 
@@ -211,14 +216,29 @@ int				run_tick(t_game *game)
 	ft_glClear(game->manager.instance, game->manager.window);
 	ft_glBegin(game->manager.instance, game->res_width, game->res_height, 0x00FF00);
 
-	if (!run_mouse_tick(game))
-		return (FALSE);
+	if (game->gamestate == PLAYING)
+	{
+		if (!run_mouse_tick(game))
+			return (FALSE);
+	}
 
-	if (!run_player_tick(game))
-		return (FALSE);
+	if (game->gamestate == PLAYING)
+	{
+		if (!run_player_tick(game))
+			return (FALSE);
+	}
 
-	if (!run_render_tick(game))
-		return (FALSE);
+	if (game->gamestate == PLAYING)
+	{
+		if (!run_render_tick(game))
+			return (FALSE);
+	}
+
+	if (game->gamestate == FIGHTING)
+	{
+		if (!run_render_battle(game))
+			return (FALSE);
+	}
 
 	ft_glEnd(game->manager.instance, game->manager.window, 0, 0);
 	return (TRUE);

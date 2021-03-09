@@ -169,3 +169,13 @@ void	ft_glCircle(t_vector origin, int radius, int color)
 		ft_glPixel((int)(origin.x + x), (int)(origin.z + z), color);
 	}
 }
+
+double	ft_scale_by_width(double v, int width)
+{
+	return (v * width / 1280.0);
+}
+
+double	ft_scale_by_height(double v, int height)
+{
+	return (v * height / 720.0);
+}

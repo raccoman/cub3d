@@ -45,11 +45,17 @@ int	load_textures(t_game *game)
 		game->settings.pokemon_data[i].closeup_texture_path = NULL;
 		i++;
 	}
+
+	if (!load_texture(game->manager.instance, &game->textures.hud[0], "../resources/texture/hud/battle.png"))
+		return (FALSE);
+
 	return (TRUE);
 }
 
 int	run_game(t_game *game)
 {
+	game->gamestate = PLAYING;
+	init_story(game);
 	init_player(game->settings, &game->player, &game->animation);
 	game->timer.last_update = current_milliseconds();
 	mlx_loop(game->manager.instance);

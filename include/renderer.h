@@ -44,4 +44,8 @@ void			ft_glFilledCircle(t_vector origin, int radius, int color);
 
 void			ft_glSkyBox(int offsetx, int offsety, int res_width, int res_height, t_texture_data texture);
 
+double			ft_scale_by_width(double v, int width);
+
+double			ft_scale_by_height(double v, int height);
+
 #endif

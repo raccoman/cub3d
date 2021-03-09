@@ -2,8 +2,8 @@
 
 #define PLAYER game->player
 #define IS_MOVING(x) game->manager.inputs[x]
-#define COLLIDING_X_AXIS(x) game->map[(int)(x)][(int)PLAYER.posz]
-#define COLLIDING_Z_AXIS(z) game->map[(int)PLAYER.posx][(int)(z)]
+#define COLLIDING_X_AXIS(x) is_colliding(game, (int)(x), (int)PLAYER.posz)
+#define COLLIDING_Z_AXIS(z) is_colliding(game, (int)PLAYER.posx, (int)(z))
 
 void	init_player(t_settings settings, t_player *player, t_animation *animation)
 {
@@ -42,7 +42,7 @@ void	init_player(t_settings settings, t_player *player, t_animation *animation)
 
 	player->rotatespeed = 0.1;
 	player->movespeed = 0.1;
-	animation->walking = 1;
+	animation->walking = 0;
 }
 
 int		run_player_tick(t_game *game)
@@ -50,35 +50,35 @@ int		run_player_tick(t_game *game)
 
 	if (IS_MOVING(KEY_W))
 	{
-		if (COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirx * PLAYER.movespeed * 3) == '0')
+		if (!COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirx * PLAYER.movespeed * 3))
 			PLAYER.posx += PLAYER.dirx * PLAYER.movespeed;
 
-		if (COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirz * PLAYER.movespeed * 3) == '0')
+		if (!COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirz * PLAYER.movespeed * 3))
 			PLAYER.posz += PLAYER.dirz * PLAYER.movespeed;
 	}
 
 	if (IS_MOVING(KEY_S))
 	{
-		if (COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirx * PLAYER.movespeed * 0.8 * 3) == '0')
+		if (!COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirx * PLAYER.movespeed * 0.8 * 3))
 			PLAYER.posx -= PLAYER.dirx * PLAYER.movespeed * 0.8;
 
-		if (COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirz * PLAYER.movespeed * 0.8 * 3) == '0')
+		if (!COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirz * PLAYER.movespeed * 0.8 * 3))
 			PLAYER.posz -= PLAYER.dirz * PLAYER.movespeed * 0.8;
 	}
 
 	if (IS_MOVING(KEY_D))
 	{
-		if (COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirx * -PLAYER.movespeed * 3) == '0')
+		if (!COLLIDING_Z_AXIS(PLAYER.posz + PLAYER.dirx * -PLAYER.movespeed * 3))
 			PLAYER.posz += PLAYER.dirx * -PLAYER.movespeed;
-		if (COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirz * PLAYER.movespeed * 3) == '0')
+		if (!COLLIDING_X_AXIS(PLAYER.posx + PLAYER.dirz * PLAYER.movespeed * 3))
 			PLAYER.posx += PLAYER.dirz * PLAYER.movespeed;
 	}
 
 	if (IS_MOVING(KEY_A))
 	{
-		if (COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirx * -PLAYER.movespeed * 3) == '0')
+		if (!COLLIDING_Z_AXIS(PLAYER.posz - PLAYER.dirx * -PLAYER.movespeed * 3))
 			PLAYER.posz -= PLAYER.dirx * -PLAYER.movespeed;
-		if (COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirz * PLAYER.movespeed * 3) == '0')
+		if (!COLLIDING_X_AXIS(PLAYER.posx - PLAYER.dirz * PLAYER.movespeed * 3))
 			PLAYER.posx -= PLAYER.dirz * PLAYER.movespeed;
 	}
 
@@ -95,8 +95,14 @@ int		run_player_tick(t_game *game)
 	if (IS_MOVING(KEY_W) || IS_MOVING(KEY_S) || IS_MOVING(KEY_A) || IS_MOVING(KEY_D))
 	{
 		if (current_milliseconds() - game->animation.walking_time >= 50L) {
-			game->animation.walking = -game->animation.walking;
-			PLAYER.posy += game->animation.walking * 10;
+			game->animation.walking += game->animation.walking >= 0 ? 1 : -1;
+
+			if (game->animation.walking == 5)
+				game->animation.walking = -1;
+			else if (game->animation.walking == -5)
+				game->animation.walking = 0;
+
+			PLAYER.pitch += game->animation.walking;
 			game->animation.walking_time = current_milliseconds();
 		}
 	}

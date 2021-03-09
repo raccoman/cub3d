@@ -38,4 +38,6 @@ char	*ft_concatenate(char *s1, char *s2);
 
 int		ft_find(char *string, char *charset);
 
+int		ft_irandom(int min, int max);
+
 #endif

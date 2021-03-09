@@ -94,6 +94,7 @@ int	parse_map(t_game *game, char *string)
 			new_sprites[k] = game->sprites[k];
 			k++;
 		}
+		new_sprites[k].present = 1;
 		new_sprites[k].posx = i + 0.5;
 		new_sprites[k].posz = sprite + 0.5;
 

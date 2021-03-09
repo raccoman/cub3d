@@ -15,5 +15,6 @@
 # define KEY_UP_ARROW 126
 # define KEY_DOWN_ARROW 125
 # define KEY_SPACE 49
+# define KEY_E 14
 
 #endif

@@ -7,10 +7,20 @@
 # include "keyboard.h"
 # include <time.h>
 
+# define KEY_PRESSED(x) game->manager.inputs[x]
+
+typedef enum	e_gamestate
+{
+	PLAYING,
+	FIGHTING,
+	PAUSE
+}				t_gamestate;
+
 typedef struct	s_manager
 {
 	void	*instance;
 	void	*window;
+
 	short	inputs[270];
 }				t_manager;
 
@@ -45,8 +55,21 @@ typedef struct	s_sprite
 {
 	double	posx;
 	double	posz;
+	int		present;
 	int		texture_id;
 }				t_sprite;
+
+typedef struct	s_story
+{
+	int	mn_cut;
+	int	pokemon_squad[6];
+	int	pokemon_count;
+
+	int	opponent_hp;
+	int	own_hp;
+	int	opponent_pokemon;
+	int	own_pokemon;
+}				t_story;
 
 typedef struct	s_game
 {
@@ -58,6 +81,9 @@ typedef struct	s_game
 	t_sprite		*sprites;
 	int				sprite_count;
 
+	t_gamestate		gamestate;
+
+	t_story			story;
 	t_textures		textures;
 	t_settings		settings;
 	t_animation		animation;
@@ -75,6 +101,8 @@ int				onKeyRelease(int key, t_game *game);
 int				onMouseClick(int button, int x, int y, t_game *game);
 
 int				onGameLoop(t_game *game);
+
+int				onCollideSprite(t_game *game, t_sprite *sprite);
 
 int				init_game(t_game *game);
 
@@ -95,5 +123,13 @@ int				run_player_tick(t_game *game);
 int				rotate_player(t_game *game, double rotatespeed);
 
 int				run_mouse_tick(t_game *game);
+
+int				is_colliding(t_game *game, int x, int z);
+
+int				init_story(t_game *game);
+
+int				run_render_battle(t_game *game);
+
+int				init_battle(t_game *game);
 
 #endif

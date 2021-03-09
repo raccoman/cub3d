@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 89)
 
 find_library(OPENGL_FRAMEWORK OpenGL)
 find_library(APPKIT_FRAMEWORK AppKit)
+find_library(SDL2_FRAMEWORK SDL2)
 
 include_directories(./include)
 include_directories(./include/gnl)
@@ -23,7 +24,7 @@ set(SRCS
         src/renderer.c
         src/utils.c
         src/player.c
-        src/mouse.c)
+        src/mouse.c src/collisions.c src/story.c src/battle.c)
 
 add_executable(cub3D main.c ${SRCS})
 

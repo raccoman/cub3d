@@ -24,7 +24,7 @@ set(SRCS
         src/renderer.c
         src/utils.c
         src/player.c
-        src/mouse.c src/collisions.c src/story.c src/battle.c)
+        src/mouse.c src/collisions.c src/story.c src/battle.c src/font.c)
 
 add_executable(cub3D main.c ${SRCS})
 

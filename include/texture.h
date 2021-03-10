@@ -18,6 +18,7 @@ typedef struct	s_texture_data
 
 typedef struct	s_textures
 {
+	t_texture_data fonts[1];
 	t_texture_data hud[1];
 	t_texture_data environment[8];
 	t_texture_data pokemon[152];

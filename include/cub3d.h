@@ -62,8 +62,6 @@ typedef struct	s_sprite
 typedef struct	s_story
 {
 	int	mn_cut;
-	int	pokemon_squad[6];
-	int	pokemon_count;
 
 	int	opponent_hp;
 	int	own_hp;

@@ -38,14 +38,15 @@ int				onMouseClick(int button, int x, int y, t_game *game)
 		if (x >= game->res_width / 2 && x <= game->res_width / 2  + game->res_width / 2 / 2 &&
 			y >= game->res_height / 3 * 2 + game->res_height / 3 / 2 && y <= game->res_height)
 		{
-			game->story.opponent_hp += 10;
+
 		}
 
 		//Click fight button
 		if (x >= game->res_width / 2 && x <= game->res_width / 2  + game->res_width / 2 / 2 &&
 			y >= game->res_height / 3 * 2 && y <= game->res_height / 3 * 2 + game->res_height / 3 / 2)
 		{
-			game->story.opponent_hp -= 10;
+			if (game->story.alive && game->story.attack_turn == 0 && (current_milliseconds() - game->story.attack_time) > 2000L)
+				attack_opponent(game);
 		}
 	}
 

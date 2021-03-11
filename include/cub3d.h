@@ -67,6 +67,9 @@ typedef struct	s_story
 	int	own_hp;
 	int	opponent_pokemon;
 	int	own_pokemon;
+	int	attack_turn;
+	int	alive;
+	int64_t	attack_time;
 }				t_story;
 
 typedef struct	s_game
@@ -129,5 +132,11 @@ int				init_story(t_game *game);
 int				run_render_battle(t_game *game);
 
 int				init_battle(t_game *game);
+
+int				attack_opponent(t_game *game);
+
+int				attack_player(t_game *game);
+
+int				run_render_hud(t_game *game);
 
 #endif

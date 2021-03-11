@@ -49,6 +49,9 @@ int	load_textures(t_game *game)
 	if (!load_texture(game->manager.instance, &game->textures.hud[0], "../resources/texture/hud/battle.png"))
 		return (FALSE);
 
+	if (!load_texture(game->manager.instance, &game->textures.hud[1], "../resources/texture/hud/mn.png"))
+		return (FALSE);
+
 	if (!load_texture(game->manager.instance, &game->textures.fonts[0], "../resources/font/basic.png"))
 		return (FALSE);
 

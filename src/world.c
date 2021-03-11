@@ -240,6 +240,12 @@ int				run_tick(t_game *game)
 			return (FALSE);
 	}
 
+	if (game->gamestate == PLAYING || game->gamestate == PAUSE)
+	{
+		if (!run_render_hud(game))
+			return (FALSE);
+	}
+
 	ft_glEnd(game->manager.instance, game->manager.window, 0, 0);
 	return (TRUE);
 }

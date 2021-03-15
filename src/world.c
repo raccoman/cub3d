@@ -103,7 +103,7 @@ int				run_render_tick(t_game *game)
 				vraycasting.mapz += vraycasting.stepz;
 				vraycasting.side = 1;
 			}
-			if (game->map[vraycasting.mapx][vraycasting.mapz] == '1')
+			if (game->map[vraycasting.mapx][vraycasting.mapz] == '1' || game->map[vraycasting.mapx][vraycasting.mapz] == '4')
 			{
 				vraycasting.hit = 1;
 			}

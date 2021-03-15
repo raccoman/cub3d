@@ -1,3 +1,4 @@
+#include <printf.h>
 # include "parser.h"
 
 int	parse_resolution(t_game *game, char *string)
@@ -122,7 +123,7 @@ int	parse_settings(t_game *game, const char *path)
 	char	*line;
 
 	if ((fd = open(path, O_RDONLY)) < 0)
-		return (FALSE);
+        return (FALSE);
 
 	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "R") || !parse_resolution(game, line))
 			return (FALSE);
@@ -155,13 +156,11 @@ int	parse_settings(t_game *game, const char *path)
 	while (gnnel(fd, &line) >= 0 && ft_starts_with(line, "POKEMON"))
 		parse_pokemon(game, line);
 
-	/*
-	 * This is a shit
-	 */
 	game->map = NULL;
 	game->sprites = NULL;
 	game->sprite_count = 0;
 	game->settings.spawn = new_vector(-1, -1);
+
 	if (!ft_contains_only(line,"01234NSWE ") || !parse_map(game, line))
 		return (FALSE);
 	while (gnl(fd, &line) > 0)

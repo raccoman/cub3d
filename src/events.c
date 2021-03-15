@@ -39,6 +39,12 @@ int				onMouseClick(int button, int x, int y, t_game *game)
 			y >= game->res_height / 3 * 2 + game->res_height / 3 / 2 && y <= game->res_height)
 		{
 
+            if (game->story.alive && game->story.attack_turn == 0 && (current_milliseconds() - game->story.attack_time) > 2000L) {
+                game->story.catching = 1;
+                game->story.catching_time = current_milliseconds();
+            }
+
+
 		}
 
 		//Click fight button
@@ -83,4 +89,11 @@ int	onCollideSprite(t_game *game, t_sprite *sprite)
 	}
 
 	return (1);
+}
+
+int onCollideWall(t_game *game, int posx, int posz)
+{
+    if (game->map[posx][posz] == '4' && game->story.mn_cut && KEY_PRESSED(KEY_E)) //Colliding cuttable wall
+        game->map[posx][posz] = '0';
+    return (1);
 }

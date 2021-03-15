@@ -125,7 +125,7 @@ int		gnnel(int fd, char **line)
 	while ((res = gnl(fd, line)) > 0)
 	{
 		slider = *line;
-		while (is_isspace(*slider))
+		while (ft_is_isspace(*slider))
 			slider++;
 		if (*slider != 0)
 			break;

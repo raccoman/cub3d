@@ -25,16 +25,51 @@ int		run_render_battle(t_game *game)
 				(int)ft_scale_by_height(14.0, game->res_height),
 				hp_to_color(game->story.own_hp));
 
-	ft_glRectangleTextured(new_vector(game->res_width / 3. * 2., 10),
-						game->res_height / 3,game->res_height / 3,
-						game->textures.closeup_pokemon[game->story.opponent_pokemon]);
+    if (!game->story.catching)
+    {
+        ft_glRectangleTextured(new_vector(game->res_width / 3. * 2., 10),
+                               game->res_height / 3, game->res_height / 3,
+                               game->textures.closeup_pokemon[game->story.opponent_pokemon]);
+    }
+    else
+    {
+        ft_glRectangleTextured(new_vector(game->res_width / 2. + 150, -100),
+                               game->res_height / 2, game->res_height / 2,
+                               game->textures.environment[7]);
+    }
 
-	ft_glRectangleTextured(new_vector(game->res_width / 2. / 3., game->res_height / 3.),
-						game->res_height / 3,game->res_height / 3,
-						game->textures.closeup_pokemon[game->story.own_pokemon]);
+        ft_glRectangleTextured(new_vector(game->res_width / 2. / 3., game->res_height / 3.),
+                               game->res_height / 3, game->res_height / 3,
+                               game->textures.closeup_pokemon[game->story.own_pokemon]);
 
 	ft_glString(40, 52, game->settings.pokemon_data[game->story.opponent_pokemon].name, game->textures.fonts[0]);
 	ft_glString(780, 322, game->settings.pokemon_data[game->story.own_pokemon].name, game->textures.fonts[0]);
+
+    if (game->story.catching)
+    {
+        if ((current_milliseconds() - game->story.catching_time) > 2000L)
+        {
+            if (ft_irandom(0, 101 - game->story.opponent_hp) > 50)
+            {
+                game->story.squad[game->story.count++] = game->story.opponent_pokemon;
+                if (game->story.count >= 152)
+                    game->story.count = 0;
+
+                game->story.catching = 0;
+
+                mlx_mouse_hide();
+                game->gamestate = PLAYING;
+                return (TRUE);
+            }
+
+            game->story.catching = 0;
+
+            game->story.attack_turn = 1;
+            game->story.attack_time = current_milliseconds();
+        }
+
+        return (TRUE);
+    }
 
 	if (!game->story.alive && (current_milliseconds() - game->story.attack_time) > 2000L)
 	{
@@ -52,10 +87,12 @@ int		init_battle(t_game *game)
 {
 	game->story.opponent_hp = 100;
 	game->story.own_hp = 100;
-	game->story.own_pokemon = ft_irandom(0, game->settings.pokemon_count);
+	game->story.own_pokemon = game->story.squad[ft_irandom(0, game->story.count)];
 	game->story.opponent_pokemon = ft_irandom(0, game->settings.pokemon_count);
 	game->story.attack_turn = 0;
 	game->story.alive = 1;
+
+	game->story.catching = 0;
 
 	game->gamestate = FIGHTING;
 	mlx_mouse_show();

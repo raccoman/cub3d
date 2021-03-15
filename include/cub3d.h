@@ -62,6 +62,8 @@ typedef struct	s_sprite
 typedef struct	s_story
 {
 	int	mn_cut;
+	int squad[152];
+	int count;
 
 	int	opponent_hp;
 	int	own_hp;
@@ -70,6 +72,10 @@ typedef struct	s_story
 	int	attack_turn;
 	int	alive;
 	int64_t	attack_time;
+
+	int catching;
+	int64_t catching_time;
+
 }				t_story;
 
 typedef struct	s_game
@@ -104,6 +110,8 @@ int				onMouseClick(int button, int x, int y, t_game *game);
 int				onGameLoop(t_game *game);
 
 int				onCollideSprite(t_game *game, t_sprite *sprite);
+
+int				onCollideWall(t_game *game, int posx, int posz);
 
 int				init_game(t_game *game);
 

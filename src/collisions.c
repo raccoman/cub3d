@@ -14,5 +14,11 @@ int	is_colliding(t_game *game, int x, int z)
 		i++;
 	}
 
-	return (game->map[x][z] != '0');
+    if (game->map[x][z] != '0')
+    {
+        onCollideWall(game, x, z);
+        return (TRUE);
+    }
+
+	return (FALSE);
 }

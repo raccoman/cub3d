@@ -2,6 +2,9 @@
 
 int	init_game(t_game *game)
 {
+    int i;
+
+
 	if (!(game->manager.instance = mlx_init()))
 		return (0);
 
@@ -14,6 +17,11 @@ int	init_game(t_game *game)
 	mlx_mouse_hook(game->manager.window, &onMouseClick, game);
 	mlx_loop_hook(game->manager.instance, &onGameLoop, game);
 	mlx_mouse_hide();
+
+	i = 0;
+    while (i++ < 270)
+        game->manager.inputs[i - 1] = 0;
+
 	return (TRUE);
 }
 

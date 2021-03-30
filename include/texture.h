@@ -22,7 +22,7 @@ typedef struct	s_textures
 	t_texture_data hud[2];
 	t_texture_data environment[8];
 	t_texture_data pokemon[152];
-	t_texture_data closeup_pokemon[152];
+	t_texture_data backsprite[152];
 }				t_textures;
 
 int				load_texture(void *mlx_instance, t_texture_data *save_to, char *resource);

@@ -39,7 +39,7 @@ int				onMouseClick(int button, int x, int y, t_game *game)
 			y >= game->res_height / 3 * 2 + game->res_height / 3 / 2 && y <= game->res_height)
 		{
 
-            if (game->story.alive && game->story.attack_turn == 0 && (current_milliseconds() - game->story.attack_time) > 2000L) {
+            if (game->story.alive && game->story.atk_turn == 0 && (current_milliseconds() - game->story.atk_time) > 2000L) {
                 game->story.catching = 1;
                 game->story.catching_time = current_milliseconds();
             }
@@ -51,7 +51,7 @@ int				onMouseClick(int button, int x, int y, t_game *game)
 		if (x >= game->res_width / 2 && x <= game->res_width / 2  + game->res_width / 2 / 2 &&
 			y >= game->res_height / 3 * 2 && y <= game->res_height / 3 * 2 + game->res_height / 3 / 2)
 		{
-			if (game->story.alive && game->story.attack_turn == 0 && (current_milliseconds() - game->story.attack_time) > 2000L)
+			if (game->story.alive && game->story.atk_turn == 0 && (current_milliseconds() - game->story.atk_time) > 2000L)
 				attack_opponent(game);
 		}
 	}

@@ -91,17 +91,17 @@ void	ft_glRoundedRectangle(t_vector origin, int radius, int width, int height, i
 	int x = (int)origin.x;
 	int z = (int)origin.z;
 
-	ft_glFilledCircle(new_vector(x + radius, z + radius), radius, color);
-	ft_glFilledCircle(new_vector(x + radius + width - radius * 2, z + radius), radius, color);
-	ft_glFilledCircle(new_vector(x + radius, z + radius + height - radius * 2), radius, color);
-	ft_glFilledCircle(new_vector(x + radius + width - radius * 2, z + radius + height - radius * 2), radius, color);
+	ft_glFilledCircle(vector(x + radius, z + radius), radius, color);
+	ft_glFilledCircle(vector(x + radius + width - radius * 2, z + radius), radius, color);
+	ft_glFilledCircle(vector(x + radius, z + radius + height - radius * 2), radius, color);
+	ft_glFilledCircle(vector(x + radius + width - radius * 2, z + radius + height - radius * 2), radius, color);
 
-	ft_glRectangle(new_vector(x + radius, z), width - radius * 2, radius, color);
-	ft_glRectangle(new_vector(x + radius, z + height - radius), width - radius * 2, radius, color);
-	ft_glRectangle(new_vector(x, z + radius), width, height - radius * 2, color);
+	ft_glRectangle(vector(x + radius, z), width - radius * 2, radius, color);
+	ft_glRectangle(vector(x + radius, z + height - radius), width - radius * 2, radius, color);
+	ft_glRectangle(vector(x, z + radius), width, height - radius * 2, color);
 }
 
-void	ft_glRectangleTextured(t_vector origin, int width, int height, t_texture_data texture)
+void	ft_glRecText(t_vector origin, int width, int height, t_texture_data texture)
 {
 	int zo = (int)origin.z;
 	int xo = (int)origin.x;
@@ -170,12 +170,12 @@ void	ft_glCircle(t_vector origin, int radius, int color)
 	}
 }
 
-double	ft_scale_by_width(double v, int width)
+double	scale_w(double v, int width)
 {
 	return (v * width / 1280.0);
 }
 
-double	ft_scale_by_height(double v, int height)
+double	scale_h(double v, int height)
 {
 	return (v * height / 720.0);
 }

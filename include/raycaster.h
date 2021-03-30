@@ -82,4 +82,7 @@ typedef struct	s_sraycasting
 	t_texture_data	texture;
 }				t_sraycasting;
 
+void			ft_hraycast(t_hraycasting *hraycasting, t_game *game);
+void			ft_vraycast(t_game *game, t_vraycasting *vraycasting, t_sraycasting *sraycasting);
+
 #endif

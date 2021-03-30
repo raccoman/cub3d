@@ -42,15 +42,15 @@ int	load_textures(t_game *game)
 	i = 0;
 	while (i < game->settings.pokemon_count)
 	{
-		if (!load_texture(game->manager.instance, &game->textures.pokemon[i], game->settings.pokemon_data[i].texture_path))
+		if (!load_texture(game->manager.instance, &game->textures.pokemon[i], game->settings.pkm_data[i].texture_path))
 			return (FALSE);
-		if (!load_texture(game->manager.instance, &game->textures.closeup_pokemon[i], game->settings.pokemon_data[i].closeup_texture_path))
+		if (!load_texture(game->manager.instance, &game->textures.backsprite[i], game->settings.pkm_data[i].closeup_texture_path))
 			return (FALSE);
 
-		free(game->settings.pokemon_data[i].texture_path);
-		free(game->settings.pokemon_data[i].closeup_texture_path);
-		game->settings.pokemon_data[i].texture_path = NULL;
-		game->settings.pokemon_data[i].closeup_texture_path = NULL;
+		free(game->settings.pkm_data[i].texture_path);
+		free(game->settings.pkm_data[i].closeup_texture_path);
+		game->settings.pkm_data[i].texture_path = NULL;
+		game->settings.pkm_data[i].closeup_texture_path = NULL;
 		i++;
 	}
 
@@ -75,4 +75,3 @@ int	run_game(t_game *game)
 	mlx_loop(game->manager.instance);
 	return (TRUE);
 }
-

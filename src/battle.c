@@ -1,99 +1,73 @@
-# include "cub3d.h"
-# include "renderer.h"
-
-int64_t	hp_to_color(int hp)
-{
-	if (hp >= 50)
-		return 0x2CC91E;
-	else if (hp >= 20)
-		return 0xF2BA35;
-	else
-		return 0xAD271D;
-}
+#include "cub3d.h"
+#include "renderer.h"
 
 int		run_render_battle(t_game *game)
 {
-	ft_glRectangleTextured(new_vector(0, 0), game->res_width, game->res_height, game->textures.hud[0]);
-
-	ft_glRectangle(new_vector(ft_scale_by_width(235.0, game->res_width), ft_scale_by_height(111.0, game->res_height)),
-				(int)ft_scale_by_width(256.0 / 100.0 * game->story.opponent_hp, game->res_width),
-				(int)ft_scale_by_height(14.0, game->res_height),
-				hp_to_color(game->story.opponent_hp));
-
-	ft_glRectangle(new_vector(ft_scale_by_width(959.0, game->res_width), ft_scale_by_height(383.0, game->res_height)),
-				(int)ft_scale_by_width(256.0 / 100.0 * game->story.own_hp, game->res_width),
-				(int)ft_scale_by_height(14.0, game->res_height),
-				hp_to_color(game->story.own_hp));
-
-    if (!game->story.catching)
-    {
-        ft_glRectangleTextured(new_vector(game->res_width / 3. * 2., 10),
-                               game->res_height / 3, game->res_height / 3,
-                               game->textures.closeup_pokemon[game->story.opponent_pokemon]);
-    }
-    else
-    {
-        ft_glRectangleTextured(new_vector(game->res_width / 2. + 150, -100),
-                               game->res_height / 2, game->res_height / 2,
-                               game->textures.environment[7]);
-    }
-
-        ft_glRectangleTextured(new_vector(game->res_width / 2. / 3., game->res_height / 3.),
-                               game->res_height / 3, game->res_height / 3,
-                               game->textures.closeup_pokemon[game->story.own_pokemon]);
-
-	ft_glString(40, 52, game->settings.pokemon_data[game->story.opponent_pokemon].name, game->textures.fonts[0]);
-	ft_glString(780, 322, game->settings.pokemon_data[game->story.own_pokemon].name, game->textures.fonts[0]);
-
-    if (game->story.catching)
-    {
-        if ((current_milliseconds() - game->story.catching_time) > 2000L)
-        {
-            if (ft_irandom(0, 101 - game->story.opponent_hp) > 50)
-            {
-                game->story.squad[game->story.count++] = game->story.opponent_pokemon;
-                if (game->story.count >= 152)
-                    game->story.count = 0;
-
-                game->story.catching = 0;
-
-                mlx_mouse_hide();
-                game->gamestate = PLAYING;
-                return (TRUE);
-            }
-
-            game->story.catching = 0;
-
-            game->story.attack_turn = 1;
-            game->story.attack_time = current_milliseconds();
-        }
-
-        return (TRUE);
-    }
-
-	if (!game->story.alive && (current_milliseconds() - game->story.attack_time) > 2000L)
+	ft_glRecText(vector(0, 0), RESX, RESY, TXTRS.hud[0]);
+	ft_glRectangle(vector(scale_w(235.0, RESX), scale_h(111.0, RESY)),
+				(int)scale_w(256.0 / 100.0 * STORY.enemy_hp, RESX),
+				(int)scale_h(14.0, RESY),
+				hp_to_color(STORY.enemy_hp));
+	ft_glRectangle(vector(scale_w(959.0, RESX), scale_h(383.0, RESY)),
+				(int)scale_w(256.0 / 100.0 * STORY.own_hp, RESX),
+				(int)scale_h(14.0, RESY),
+				hp_to_color(STORY.own_hp));
+	if (!STORY.catching)
+		ft_glRecText(vector(RESX / 3. * 2., 10), RESY / 3, RESY / 3,
+										BACKSPRITE[STORY.enemy_pkm]);
+	else
+		ft_glRecText(vector(RESX / 2. + 150, -100), RESY / 2, RESY / 2,
+												TXTRS.environment[7]);
+	if_catching(game);
+	if (!STORY.alive && (current_milliseconds() - STORY.atk_time) > 2000L)
 	{
 		mlx_mouse_hide();
 		game->gamestate = PLAYING;
 	}
-
-	if (game->story.alive && game->story.attack_turn == 1 && (current_milliseconds() - game->story.attack_time) > 2000L)
+	if (STORY.alive && STORY.atk_turn == 1 &&
+				(current_milliseconds() - STORY.atk_time) > 2000L)
 		attack_player(game);
+	return (TRUE);
+}
 
+int		if_catching(t_game *game)
+{
+	ft_glRecText(vector(RESX / 2. / 3., RESY / 3.), RESY / 3, RESY / 3,
+										BACKSPRITE[STORY.own_pkm]);
+	ft_glString(40, 52, PKM_DATA[STORY.enemy_pkm].name, TXTRS.fonts[0]);
+	ft_glString(780, 322, PKM_DATA[STORY.own_pkm].name, TXTRS.fonts[0]);
+	if (STORY.catching)
+	{
+		if ((current_milliseconds() - STORY.catching_time) > 2000L)
+		{
+			if (ft_irandom(0, 101 - STORY.enemy_hp) > 50)
+			{
+				STORY.squad[STORY.count++] = STORY.enemy_pkm;
+				if (STORY.count >= 152)
+					STORY.count = 0;
+				STORY.catching = 0;
+				mlx_mouse_hide();
+				game->gamestate = PLAYING;
+				return (TRUE);
+			}
+			STORY.catching = 0;
+			STORY.atk_turn = 1;
+			STORY.atk_time = current_milliseconds();
+		}
+		return (TRUE);
+	}
 	return (TRUE);
 }
 
 int		init_battle(t_game *game)
 {
-	game->story.opponent_hp = 100;
-	game->story.own_hp = 100;
-	game->story.own_pokemon = game->story.squad[ft_irandom(0, game->story.count)];
-	game->story.opponent_pokemon = ft_irandom(0, game->settings.pokemon_count);
-	game->story.attack_turn = 0;
-	game->story.alive = 1;
-
-	game->story.catching = 0;
-
+	STORY.enemy_hp = 100;
+	STORY.own_hp = 100;
+	STORY.own_pkm = STORY.squad[ft_irandom(0, STORY.count)];
+	STORY.enemy_pkm = ft_irandom(0, game->settings.pokemon_count);
+	STORY.atk_turn = 0;
+	STORY.alive = 1;
+	STORY.catching = 0;
 	game->gamestate = FIGHTING;
 	mlx_mouse_show();
 	return (TRUE);
@@ -101,20 +75,18 @@ int		init_battle(t_game *game)
 
 int		attack_opponent(t_game *game)
 {
-	game->story.opponent_hp -= ft_irandom(0, MAX(60, game->story.opponent_hp));
-	game->story.alive = game->story.opponent_hp > 0;
-
-	game->story.attack_turn = 1;
-	game->story.attack_time = current_milliseconds();
+	STORY.enemy_hp -= ft_irandom(0, MAX(60, STORY.enemy_hp));
+	STORY.alive = STORY.enemy_hp > 0;
+	STORY.atk_turn = 1;
+	STORY.atk_time = current_milliseconds();
 	return (TRUE);
 }
 
 int		attack_player(t_game *game)
 {
-	game->story.own_hp -= ft_irandom(0, MAX(60, game->story.own_hp));
-	game->story.alive = game->story.own_hp > 0;
-
-	game->story.attack_turn = 0;
-	game->story.attack_time = current_milliseconds();
+	STORY.own_hp -= ft_irandom(0, MAX(60, STORY.own_hp));
+	STORY.alive = STORY.own_hp > 0;
+	STORY.atk_turn = 0;
+	STORY.atk_time = current_milliseconds();
 	return (TRUE);
 }

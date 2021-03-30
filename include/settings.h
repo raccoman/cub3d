@@ -22,7 +22,7 @@ typedef enum	e_direction
 typedef struct	s_settings
 {
 	char			*env_texture_path[8];
-	t_pokemon_data	pokemon_data[152];
+	t_pokemon_data	pkm_data[152];
 	size_t			pokemon_count;
 	t_vector		spawn;
 	t_direction		direction;

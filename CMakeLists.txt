@@ -9,8 +9,9 @@ find_library(APPKIT_FRAMEWORK AppKit)
 include_directories(./include)
 include_directories(./include/gnl)
 include_directories(./include/libft)
-include_directories(./include/mlx)
 include_directories(./include/zlib)
+include_directories(./include/mlx)
+
 
 set(LINK_LIBRARIES ${CMAKE_SOURCE_DIR}/include)
 set(SRCS
@@ -28,14 +29,16 @@ set(SRCS
         src/story.c
         src/battle.c
         src/font.c
-        src/hud.c)
+        src/hud.c
+		src/key.c
+		src/raycaster.c)
 
 add_executable(${PROJECT_NAME} main.c ${SRCS})
 
 target_link_libraries(${PROJECT_NAME}
         ${OPENGL_FRAMEWORK}
         ${APPKIT_FRAMEWORK}
+		${LINK_LIBRARIES}/zlib/libz.a
         ${LINK_LIBRARIES}/gnl/gnl.a
         ${LINK_LIBRARIES}/libft/libft.a
-        ${LINK_LIBRARIES}/mlx/libmlx.a
-        ${LINK_LIBRARIES}/zlib/libz.a)
+		${LINK_LIBRARIES}/mlx/libmlx.a)

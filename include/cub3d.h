@@ -1,11 +1,13 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
+# include <zlib.h>
 # include "settings.h"
 # include "texture.h"
 # include "utils.h"
 # include "keyboard.h"
 # include <time.h>
+# include "mydef.h"
 
 # define KEY_PRESSED(x) game->manager.inputs[x]
 
@@ -20,7 +22,6 @@ typedef struct	s_manager
 {
 	void	*instance;
 	void	*window;
-
 	short	inputs[270];
 }				t_manager;
 
@@ -64,15 +65,13 @@ typedef struct	s_story
 	int	mn_cut;
 	int squad[152];
 	int count;
-
-	int	opponent_hp;
+	int	enemy_hp;
 	int	own_hp;
-	int	opponent_pokemon;
-	int	own_pokemon;
-	int	attack_turn;
+	int	enemy_pkm;
+	int	own_pkm;
+	int	atk_turn;
 	int	alive;
-	int64_t	attack_time;
-
+	int64_t	atk_time;
 	int catching;
 	int64_t catching_time;
 
@@ -82,14 +81,10 @@ typedef struct	s_game
 {
 	int	res_height;
 	int	res_width;
-
 	signed char 	**map;
-
 	t_sprite		*sprites;
 	int				sprite_count;
-
 	t_gamestate		gamestate;
-
 	t_story			story;
 	t_textures		textures;
 	t_settings		settings;
@@ -125,7 +120,7 @@ int64_t			current_milliseconds();
 
 void			update_timer(t_timer *timer);
 
-void			init_player(t_settings settings, t_player *player, t_animation *animation);
+void			init_player(t_settings settings, t_player *player, t_animation *anim);
 
 int				run_player_tick(t_game *game);
 
@@ -146,5 +141,7 @@ int				attack_opponent(t_game *game);
 int				attack_player(t_game *game);
 
 int				run_render_hud(t_game *game);
+
+int				if_catching(t_game *game);
 
 #endif

@@ -37,9 +37,9 @@ int	parse_pokemon(t_game *game, char *string)
 	reading = ft_skip_charset(reading, " \t\r");
 	file_name = reading;
 
-	game->settings.pokemon_data[game->settings.pokemon_count].name = ft_terminate_at(ft_strdup(name), " \t\r");
-	game->settings.pokemon_data[game->settings.pokemon_count].closeup_texture_path = ft_concatenate("../resources/texture/closeup_pokemon/", file_name);
-	game->settings.pokemon_data[game->settings.pokemon_count].texture_path = ft_concatenate("../resources/texture/pokemon/", file_name);
+	game->settings.pkm_data[game->settings.pokemon_count].name = ft_terminate_at(ft_strdup(name), " \t\r");
+	game->settings.pkm_data[game->settings.pokemon_count].closeup_texture_path = ft_concatenate("../resources/texture/closeup_pokemon/", file_name);
+	game->settings.pkm_data[game->settings.pokemon_count].texture_path = ft_concatenate("../resources/texture/pokemon/", file_name);
 	game->settings.pokemon_count++;
 
 	free(string);
@@ -71,7 +71,7 @@ int	parse_map(t_game *game, char *string)
 		if (game->settings.spawn.x != -1)
 			return (FALSE);
 
-		game->settings.spawn = new_vector(i, spawn);
+		game->settings.spawn = vector(i, spawn);
 		if (string[spawn] == 'N')
 			game->settings.direction = NORTH;
 		else if (string[spawn] == 'S')
@@ -159,7 +159,7 @@ int	parse_settings(t_game *game, const char *path)
 	game->map = NULL;
 	game->sprites = NULL;
 	game->sprite_count = 0;
-	game->settings.spawn = new_vector(-1, -1);
+	game->settings.spawn = vector(-1, -1);
 
 	if (!ft_contains_only(line,"01234NSWE ") || !parse_map(game, line))
 		return (FALSE);
@@ -176,7 +176,7 @@ int	parse_settings(t_game *game, const char *path)
 	for (int i = 0; i < 8; ++i)
 		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
 	for (int i = 0; i < game->settings.pokemon_count; ++i)
-		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pokemon_data[i].name, game->settings.pokemon_data[i].texture_path, game->settings.pokemon_data[i].closeup_texture_path);
+		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pkm_data[i].name, game->settings.pkm_data[i].texture_path, game->settings.pkm_data[i].closeup_texture_path);
 	 for (int i = 0; game->map[i] != NULL ; ++i) {
 		printf("%s\n", game->map[i]);
 	}

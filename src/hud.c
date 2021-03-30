@@ -9,7 +9,7 @@ int				run_render_hud(t_game *game)
 
 		if (game->story.mn_cut)
 		{
-			ft_glRectangleTextured(new_vector(game->res_width - 160, game->res_height - 160), 200, 200, game->textures.hud[1]);
+			ft_glRecText(vector(game->res_width - 160, game->res_height - 160), 200, 200, game->textures.hud[1]);
 		}
 
 	}

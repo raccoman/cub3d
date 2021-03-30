@@ -15,6 +15,7 @@ typedef struct	s_vector
 	double	z;
 }				t_vector;
 
-t_vector		new_vector(double x, double z);
+t_vector		vector(double x, double z);
+int64_t			hp_to_color(int hp);
 
 #endif

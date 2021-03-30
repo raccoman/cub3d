@@ -36,7 +36,7 @@ void			ft_glRectangle(t_vector origin, int width, int height, int color);
 
 void			ft_glRoundedRectangle(t_vector origin, int radius, int width, int height, int color);
 
-void			ft_glRectangleTextured(t_vector origin, int width, int height, t_texture_data texture);
+void			ft_glRecText(t_vector origin, int width, int height, t_texture_data texture);
 
 void			ft_glCircle(t_vector origin, int radius, int color);
 
@@ -44,9 +44,9 @@ void			ft_glFilledCircle(t_vector origin, int radius, int color);
 
 void			ft_glSkyBox(int offsetx, int offsety, int res_width, int res_height, t_texture_data texture);
 
-double			ft_scale_by_width(double v, int width);
+double			scale_w(double v, int width);
 
-double			ft_scale_by_height(double v, int height);
+double			scale_h(double v, int height);
 
 void			ft_glString(int x, int y, const char *string, t_texture_data texture);
 

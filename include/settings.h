@@ -7,8 +7,8 @@
 typedef struct	s_pokemon_data
 {
 	char	*name;
-	char	*texture_path;
-	char	*closeup_texture_path;
+	char	*front_path;
+	char	*back_path;
 }				t_pokemon_data;
 
 typedef enum	e_direction
@@ -21,7 +21,7 @@ typedef enum	e_direction
 
 typedef struct	s_settings
 {
-	char			*env_texture_path[8];
+	char			*env_texture_path[9];
 	t_pokemon_data	pkm_data[152];
 	size_t			pokemon_count;
 	t_vector		spawn;

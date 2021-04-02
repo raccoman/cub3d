@@ -1,8 +1,7 @@
-# include "cub3d.h"
-# include "renderer.h"
-# include "raycaster.h"
+#include "cub3d.h"
+#include "renderer.h"
+#include "raycaster.h"
 
-#define PLAYER game->player
 
 int				run_render_tick(t_game *game)
 {
@@ -74,8 +73,24 @@ int				run_render_tick(t_game *game)
 
 int				run_tick(t_game *game)
 {
+	int i;
+
 	ft_glClear(game->manager.instance, game->manager.window);
 	ft_glBegin(game->manager.instance, game->res_width, game->res_height, 0x00FF00);
+
+	if (game->story.pokeflaute_time && current_milliseconds() - game->story.pokeflaute_time > 20000L)
+	{
+		i = 0;
+		while (i < game->sprite_count)
+		{
+			if (game->sprites[i].texture_id == 8) {
+				game->sprites->present = 0;
+				break;
+			}
+		}
+		playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
+		game->story.pokeflaute_time = 0;
+	}
 
 	if (game->gamestate == PLAYING)
 	{

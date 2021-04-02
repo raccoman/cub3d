@@ -14,7 +14,7 @@ int		run_render_battle(t_game *game)
 				hp_to_color(STORY.own_hp));
 	if (!STORY.catching)
 		ft_glRecText(vector(RESX / 3. * 2., 10), RESY / 3, RESY / 3,
-										BACKSPRITE[STORY.enemy_pkm]);
+										FRONTSPRITE[STORY.enemy_pkm]);
 	else
 		ft_glRecText(vector(RESX / 2. + 150, -100), RESY / 2, RESY / 2,
 												TXTRS.environment[7]);
@@ -23,6 +23,7 @@ int		run_render_battle(t_game *game)
 	{
 		mlx_mouse_hide();
 		game->gamestate = PLAYING;
+		playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
 	}
 	if (STORY.alive && STORY.atk_turn == 1 &&
 				(current_milliseconds() - STORY.atk_time) > 2000L)
@@ -38,16 +39,18 @@ int		if_catching(t_game *game)
 	ft_glString(780, 322, PKM_DATA[STORY.own_pkm].name, TXTRS.fonts[0]);
 	if (STORY.catching)
 	{
-		if ((current_milliseconds() - STORY.catching_time) > 2000L)
+		if ((current_milliseconds() - STORY.catching_time) > 5000L)
 		{
-			if (ft_irandom(0, 101 - STORY.enemy_hp) > 50)
+			if (ft_irandom(0, 101 - STORY.enemy_hp) > 25)
 			{
+				playSound("../resources/sounds/pokemon_caught.wav", SDL_MIX_MAXVOLUME);
 				STORY.squad[STORY.count++] = STORY.enemy_pkm;
 				if (STORY.count >= 152)
 					STORY.count = 0;
 				STORY.catching = 0;
 				mlx_mouse_hide();
 				game->gamestate = PLAYING;
+				playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
 				return (TRUE);
 			}
 			STORY.catching = 0;
@@ -61,6 +64,8 @@ int		if_catching(t_game *game)
 
 int		init_battle(t_game *game)
 {
+
+	playMusic("../resources/sounds/battle.wav", SDL_MIX_MAXVOLUME / 8);
 	STORY.enemy_hp = 100;
 	STORY.own_hp = 100;
 	STORY.own_pkm = STORY.squad[ft_irandom(0, STORY.count)];
@@ -68,6 +73,7 @@ int		init_battle(t_game *game)
 	STORY.atk_turn = 0;
 	STORY.alive = 1;
 	STORY.catching = 0;
+	STORY.atk_time = 0;
 	game->gamestate = FIGHTING;
 	mlx_mouse_show();
 	return (TRUE);
@@ -79,6 +85,7 @@ int		attack_opponent(t_game *game)
 	STORY.alive = STORY.enemy_hp > 0;
 	STORY.atk_turn = 1;
 	STORY.atk_time = current_milliseconds();
+	playSound("../resources/sounds/attack.wav", SDL_MIX_MAXVOLUME);
 	return (TRUE);
 }
 
@@ -88,5 +95,6 @@ int		attack_player(t_game *game)
 	STORY.alive = STORY.own_hp > 0;
 	STORY.atk_turn = 0;
 	STORY.atk_time = current_milliseconds();
+	playSound("../resources/sounds/attack.wav", SDL_MIX_MAXVOLUME);
 	return (TRUE);
 }

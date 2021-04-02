@@ -95,7 +95,7 @@ void	ft_vraycast(t_game *game, t_vraycasting *vraycasting, t_sraycasting *srayca
 				vraycasting->mapz += vraycasting->stepz;
 				vraycasting->side = 1;
 			}
-			if (game->map[vraycasting->mapx][vraycasting->mapz] == '1' || game->map[vraycasting->mapx][vraycasting->mapz] == '4')
+			if (game->map[vraycasting->mapx][vraycasting->mapz] == '1')
 			{
 				vraycasting->hit = 1;
 			}

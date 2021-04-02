@@ -1,13 +1,14 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-# include <zlib.h>
+# include "mlx.h"
 # include "settings.h"
 # include "texture.h"
 # include "utils.h"
 # include "keyboard.h"
 # include <time.h>
 # include "mydef.h"
+# include "sound.h"
 
 # define KEY_PRESSED(x) game->manager.inputs[x]
 
@@ -50,6 +51,7 @@ typedef struct	s_animation
 {
 	int		walking;
 	int64_t	walking_time;
+	int64_t	footstep_time;
 }				t_animation;
 
 typedef struct	s_sprite
@@ -62,7 +64,7 @@ typedef struct	s_sprite
 
 typedef struct	s_story
 {
-	int	mn_cut;
+	int	pokeflaute;
 	int squad[152];
 	int count;
 	int	enemy_hp;
@@ -74,6 +76,7 @@ typedef struct	s_story
 	int64_t	atk_time;
 	int catching;
 	int64_t catching_time;
+	int64_t pokeflaute_time;
 
 }				t_story;
 
@@ -105,8 +108,6 @@ int				onMouseClick(int button, int x, int y, t_game *game);
 int				onGameLoop(t_game *game);
 
 int				onCollideSprite(t_game *game, t_sprite *sprite);
-
-int				onCollideWall(t_game *game, int posx, int posz);
 
 int				init_game(t_game *game);
 
@@ -143,5 +144,7 @@ int				attack_player(t_game *game);
 int				run_render_hud(t_game *game);
 
 int				if_catching(t_game *game);
+
+int				end_game(t_game *game);
 
 #endif

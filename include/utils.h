@@ -2,7 +2,7 @@
 #define UTILS_H
 
 # include <math.h>
-# include "libft.h"
+# include "../include/libft/libft.h"
 
 # define FALSE 0
 # define TRUE 1
@@ -17,5 +17,6 @@ typedef struct	s_vector
 
 t_vector		vector(double x, double z);
 int64_t			hp_to_color(int hp);
+//int				save_bmp(t_game *game)
 
 #endif

@@ -17,7 +17,7 @@ int	parse_texture(t_game *game, char *string, t_texture_path texture)
 {
 	char *path;
 
-	if(!(path = ft_skip_charset(string, "NOSWEAFCSBUHMT_ \t\r"))) //Unsafe should simplify this one
+	if(!(path = ft_skip_charset(string, "ABCDEFGHKIJKLMNOPQRSTUVWXYZ_ \t\r"))) //Unsafe should simplify this one
 		return (FALSE);
 	game->settings.env_texture_path[texture] = ft_strdup(path);
 	free(string);
@@ -38,8 +38,8 @@ int	parse_pokemon(t_game *game, char *string)
 	file_name = reading;
 
 	game->settings.pkm_data[game->settings.pokemon_count].name = ft_terminate_at(ft_strdup(name), " \t\r");
-	game->settings.pkm_data[game->settings.pokemon_count].closeup_texture_path = ft_concatenate("../resources/texture/closeup_pokemon/", file_name);
-	game->settings.pkm_data[game->settings.pokemon_count].texture_path = ft_concatenate("../resources/texture/pokemon/", file_name);
+	game->settings.pkm_data[game->settings.pokemon_count].back_path = ft_concatenate("../resources/texture/pokemon/back/", file_name);
+	game->settings.pkm_data[game->settings.pokemon_count].front_path = ft_concatenate("../resources/texture/pokemon/front/", file_name);
 	game->settings.pokemon_count++;
 
 	free(string);
@@ -83,7 +83,7 @@ int	parse_map(t_game *game, char *string)
 		string[spawn] = '0';
 	}
 
-	while ((sprite = ft_find(string, "23")) >= 0)
+	while ((sprite = ft_find(string, "234")) >= 0)
 	{
 		game->sprite_count++;
 		if (!(new_sprites = malloc(sizeof(t_sprite) * (game->sprite_count + 1))))
@@ -103,6 +103,8 @@ int	parse_map(t_game *game, char *string)
 			new_sprites[k].texture_id = 6;
 		else if (string[sprite] == '3')
 			new_sprites[k].texture_id = 7;
+		else if (string[sprite] == '4')
+			new_sprites[k].texture_id = 8;
 
 		free(game->sprites);
 		game->sprites = new_sprites;
@@ -149,7 +151,10 @@ int	parse_settings(t_game *game, const char *path)
 	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_BUSH") || !parse_texture(game, line, S_BUSH_TEXTURE_PATH))
 		return (FALSE);
 
-	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_MN") || !parse_texture(game, line, S_MN_TEXTURE_PATH))
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_MASTERBALL") || !parse_texture(game, line, S_MASTERBALL_TEXTURE_PATH))
+		return (FALSE);
+
+	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "S_SNORLAX") || !parse_texture(game, line, S_SNORLAX_TEXTURE_PATH))
 		return (FALSE);
 
 	game->settings.pokemon_count = 0;
@@ -176,7 +181,7 @@ int	parse_settings(t_game *game, const char *path)
 	for (int i = 0; i < 8; ++i)
 		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
 	for (int i = 0; i < game->settings.pokemon_count; ++i)
-		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pkm_data[i].name, game->settings.pkm_data[i].texture_path, game->settings.pkm_data[i].closeup_texture_path);
+		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pkm_data[i].name, game->settings.pkm_data[i].front_path, game->settings.pkm_data[i].back_path);
 	 for (int i = 0; game->map[i] != NULL ; ++i) {
 		printf("%s\n", game->map[i]);
 	}

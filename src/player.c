@@ -25,6 +25,7 @@ void		init_player(t_settings opt, t_player *player, t_animation *anim)
 	player->rotatespeed = 0.1;
 	player->movespeed = 0.1;
 	anim->walking = 0;
+	anim->walking_time = current_milliseconds();
 }
 
 int			run_player_tick(t_game *game)
@@ -35,6 +36,11 @@ int			run_player_tick(t_game *game)
 	a_key(game);
 	if (IS_MOVING(KEY_W) || IS_MOVING(KEY_S) || IS_MOVING(KEY_A) || IS_MOVING(KEY_D))
 	{
+		if (current_milliseconds() - game->animation.footstep_time > 450L)
+		{
+			playSound("../resources/sounds/footsteps.wav", SDL_MIX_MAXVOLUME);
+			game->animation.footstep_time = current_milliseconds();
+		}
 		if (current_milliseconds() - game->animation.walking_time >= 50L) {
 			game->animation.walking += game->animation.walking >= 0 ? 1 : -1;
 

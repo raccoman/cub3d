@@ -1,0 +1,3 @@
+/Users/rboldini/Desktop/Cub3D/build/CMakeFiles/rebuild_cache.dir
+/Users/rboldini/Desktop/Cub3D/build/CMakeFiles/edit_cache.dir
+/Users/rboldini/Desktop/Cub3D/build/CMakeFiles/cub3D.dir

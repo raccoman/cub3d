@@ -58,6 +58,7 @@ uint32_t	ft_glGetPixelColor(int x, int y, t_texture_data texture)
 	return (*(unsigned int*)dst);
 }
 
+//TODO: Seg fault at line 70, error in dst, coming from render skybox
 void ft_glPixel(int x, int y, uint32_t color)
 {
 

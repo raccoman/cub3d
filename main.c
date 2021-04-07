@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "parser.h"
-#include "texture.h"
 #include "cub3d.h"
 
 int	main(int argc, char **argv)

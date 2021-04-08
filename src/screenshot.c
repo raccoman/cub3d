@@ -1,91 +1,71 @@
-/*
-#include "cub3d.h"
-
-static void		set_int_in_char(unsigned char *start, int value)
-{
-	start[0] = (unsigned char)(value);
-	start[1] = (unsigned char)(value >> 8);
-	start[2] = (unsigned char)(value >> 16);
-	start[3] = (unsigned char)(value >> 24);
-}
-
-static int		write_bmp_header(int fd, int filesize, t_game *game)
-{
-	int				i;
-	int				tmp;
-	unsigned char	bmpfileheader[54];
-
-	i = 0;
-	while (i < 54)
-		bmpfileheader[i++] = (unsigned char)(0);
-	bmpfileheader[0] = (unsigned char)('B');
-	bmpfileheader[1] = (unsigned char)('M');
-	set_int_in_char(bmpfileheader + 2, filesize);
-	bmpfileheader[10] = (unsigned char)(54);
-	bmpfileheader[14] = (unsigned char)(40);
-	tmp = game->window.size.x;
-	set_int_in_char(bmpfileheader + 18, tmp);
-	tmp = game->window.size.y;
-	set_int_in_char(bmpfileheader + 22, tmp);
-	bmpfileheader[27] = (unsigned char)(1);
-	bmpfileheader[28] = (unsigned char)(24);
-	return (!(write(fd, bmpfileheader, 54) < 0));
-}
-
-static int		get_color(t_window *w, int x, int y)
-{
-	int	rgb;
-	int	color;
-
-	color = *(int*)(w->screen.ptr
-					+ (4 * (int)w->size.x * ((int)w->size.y - 1 - y))
-					+ (4 * x));
-	rgb = (color & 0xFF0000) | (color & 0x00FF00) | (color & 0x0000FF);
-	return (rgb);
-}
-
-static int		write_bmp_data(int file, t_window *w, int pad)
-{
-	const unsigned char	zero[3] = {0, 0, 0};
-	int					i;
-	int					j;
-	int					color;
-
-	i = 0;
-	while (i < (int)w->size.y)
-	{
-		j = 0;
-		while (j < (int)w->size.x)
-		{
-			color = get_color(w, j, i);
-			if (write(file, &color, 3) < 0)
-				return (0);
-			if (pad > 0 && write(file, &zero, pad) < 0)
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-int				save_bmp(t_game *game)
-{
-	t_window	*w;
-	int			filesize;
-	int			file;
-	int			pad;
-
-	w = &game->window;
-	pad = (4 - ((int)w->size.x * 3) % 4) % 4;
-	filesize = 54 + (3 * ((int)w->size.x + pad) * (int)w->size.y);
-	if ((file = open("screenshot.bmp", O_WRONLY | O_CREAT
-									   | O_TRUNC | O_APPEND)) < 0)
-		return (0);
-	if (!write_bmp_header(file, filesize, game))
-		return (0);
-	if (!write_bmp_data(file, w, pad))
-		return (0);
-	close(file);
-	return (1);
-}*/
+// static void		ft_file_screenshot(int fd, t_data *d) //t_data > ~t_image
+// {
+// 	int i;
+// 	int j;
+// 	int color;
+// ​
+// 	i = d->height;
+// 	while (--i >= 0)
+// 	{
+// 		j = -1;
+// 		while (++j < d->width)
+// 		{
+// 			color = *(int*)(d->addr + (i * d->line_len
+// 					+ j * (d->bpp / 8)));
+// 			write(fd, &color, 4);
+// 		}
+// 	}
+// }
+// ​
+// void		ft_screenshot2(t_data *d, int fd)
+// {
+// 	int		size_screen;
+// 	int		pos_pixel_data;
+// 	int		zero;
+// 	short	plane;
+// ​
+// 	plane = 1;
+// 	zero = 0;
+// 	pos_pixel_data = 54;
+// 	size_screen = d->width
+// 		* d->height * 4 + 54;
+// 	write(fd, "BM", 2);
+// 	write(fd, &size_screen, 4);
+// 	write(fd, &zero, 4);
+// 	write(fd, &pos_pixel_data, 4);
+// 	pos_pixel_data = 40;
+// 	write(fd, &pos_pixel_data, 4);
+// 	write(fd, &d->width, 4);
+// 	write(fd, &d->height, 4);
+// 	write(fd, &plane, 2);
+// 	plane = 32;
+// 	write(fd, &plane, 2);
+// }
+// ​
+// void		screenshot(t_data *d)
+// {
+// 	int fd;
+// 	int size_screen;
+// 	int zero;
+// 	int size;
+// ​
+// 	fd = open("screen.bmp", O_CREAT | O_RDWR, 0777);
+// 	size_screen = d->width
+// 		* d->height * 4 + 54;
+// 	zero = 0;
+// 	size = d->width
+// 		* d->height;
+// 	if (fd < 0)
+// 		ft_putendl_fd("Error", 2);
+// 	ft_screenshot2(d, fd);
+// 	write(fd, &zero, 4);
+// 	write(fd, &size, 4);
+// 	size_screen = 1000;
+// 	write(fd, &size_screen, 4);
+// 	write(fd, &size_screen, 4);
+// 	write(fd, &zero, 4);
+// 	write(fd, &zero, 4);
+// 	ft_file_screenshot(fd, d);
+// 	close(fd);
+// 	my_exit(d);
+// }

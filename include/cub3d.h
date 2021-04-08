@@ -84,6 +84,7 @@ typedef struct	s_game
 {
 	int	res_height;
 	int	res_width;
+	short			screenshot;
 	signed char 	**map;
 	t_sprite		*sprites;
 	int				sprite_count;

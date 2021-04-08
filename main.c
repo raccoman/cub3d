@@ -6,11 +6,14 @@ int	main(int argc, char **argv)
 {
 	t_game game;
 
-	if (argc < 2)
+	game.screenshot = FALSE;
+	if (argc < 2 || argc > 3)
 	{
-		perror("Usage: ./cub3D <settings> [--save]");
+		perror("Usage: ./cub3D <Settings File Path> [--save]");
 		return (1);
 	}
+	if (argv[2] == "--save")
+		game.screenshot = TRUE;
 	if (!parse_settings(&game, argv[1]))
 	{
 		perror("Unable to read settings. Error");

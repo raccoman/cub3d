@@ -1,6 +1,7 @@
 #include "cub3d.h"
 #include "renderer.h"
 #include "raycaster.h"
+#include "screenshot.h"
 
 
 int				run_render_tick(t_game *game)
@@ -67,6 +68,12 @@ int				run_render_tick(t_game *game)
 
 		sraycasting.i++;
 	}
+
+	if (1)
+		{
+				ft_screenshot(&data, game);
+				exit(1);
+		}
 
 	return (TRUE);
 }

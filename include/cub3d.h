@@ -82,9 +82,9 @@ typedef struct	s_story
 
 typedef struct	s_game
 {
-	int	res_height;
-	int	res_width;
-	short			screenshot;
+	int				res_height;
+	int				res_width;
+	int				screenshot;
 	signed char 	**map;
 	t_sprite		*sprites;
 	int				sprite_count;

@@ -69,7 +69,7 @@ int				run_render_tick(t_game *game)
 		sraycasting.i++;
 	}
 
-	if (1)
+	if (game->screenshot)
 		{
 				ft_screenshot(&data, game);
 				exit(1);

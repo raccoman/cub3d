@@ -58,10 +58,8 @@ uint32_t	ft_glGetPixelColor(int x, int y, t_texture_data texture)
 	return (*(unsigned int*)dst);
 }
 
-//TODO: Seg fault at line 70, error in dst, coming from render skybox
 void ft_glPixel(int x, int y, uint32_t color)
 {
-
 	if (!ft_is_rgb_mask(color, data.mask))
 	{
 		char *dst;
@@ -134,18 +132,18 @@ void	ft_glSkyBox(int offsetx, int offsety, int res_width, int res_height, t_text
 	z = 0;
 	while (z < res_height)
 	{
-		horizon = z + 160 - res_height / 2 + offsety;
+		//TODO: Recode vertical skybox
+		horizon = z + (res_height * 100 / 720) - res_height / 2 + offsety;
 		x = 0;
 		while (x < res_width - offsetx)
 		{
-			ft_glPixel(x, z + horizon - z, ft_glGetPixelColor((int)((x + offsetx) * width_r), (int)(z * height_r), texture));
+			ft_glPixel(x, ft_clamp(horizon, res_height - 1, 0), ft_glGetPixelColor((int)((x + offsetx) * width_r), (int)(z * height_r), texture));
 			x++;
 		}
-
 		x = res_width - offsetx;
 		while (x < res_width)
 		{
-			ft_glPixel(x, z + horizon - z, ft_glGetPixelColor((int)((x - res_width + offsetx) * width_r), (int)(z * height_r), texture));
+			ft_glPixel(x, ft_clamp(horizon, res_height - 1, 0), ft_glGetPixelColor((int)((x - res_width + offsetx) * width_r), (int)(z * height_r), texture));
 			x++;
 		}
 

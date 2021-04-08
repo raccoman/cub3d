@@ -49,6 +49,9 @@ int			run_player_tick(t_game *game)
 			else if (game->animation.walking == -5)
 				game->animation.walking = 0;
 			PLAYER.pitch += game->animation.walking;
+
+
+
 			game->animation.walking_time = current_milliseconds();
 		}
 	}

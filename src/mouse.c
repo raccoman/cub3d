@@ -26,8 +26,7 @@ int	run_mouse_tick(t_game *game)
 
 		if ((abs(difference = prevy - y)) > 0) {
 			max_rotatespeed = game->res_height * 200.0 / 720.0;
-			game->player.pitch = ft_clamp(game->player.pitch + (int) (difference * max_rotatespeed / game->res_height),
-										  200, -200);
+			game->player.pitch = ft_clamp(game->player.pitch + (int) (difference * max_rotatespeed / game->res_height),200,-150);
 		}
 
 		if (y >= game->res_height)

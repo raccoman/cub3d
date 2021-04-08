@@ -10,7 +10,7 @@ int				run_render_tick(t_game *game)
 	t_vraycasting	vraycasting;
 	t_sraycasting	sraycasting;
 
-	ft_glSkyBox(game->player.yaw, game->player.pitch, game->res_width, game->res_height, game->textures.environment[5]);
+	ft_glSkyBox(game->player.yaw, game->player.pitch - 1 - abs(game->animation.walking), game->res_width, game->res_height, game->textures.environment[5]);
 
 	ft_hraycast(&hraycasting, game);
 	ft_vraycast(game, &vraycasting, &sraycasting);

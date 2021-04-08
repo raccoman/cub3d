@@ -2,31 +2,16 @@
 #include "parser.h"
 #include "cub3d.h"
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	size_t i;
 
 	i = 0;
-	while (i < n && *(unsigned char*)(s1 + i) && *(unsigned char*)(s2 + i))
+	while (i < n)
 	{
-		if (*(unsigned char*)(s1 + i) == *(unsigned char*)(s2 + i))
-			i++;
-		else
-		{
-			if (*(unsigned char*)(s1 + i) > *(unsigned char*)(s2 + i))
-				return (1);
-			else
-				return (-1);
-		}
-	}
-	if (i == n)
-		return (0);
-	else
-	{
-		if (*(unsigned char*)(s1 + i) > *(unsigned char*)(s2 + i))
-			return (1);
-		if (*(unsigned char*)(s1 + i) < *(unsigned char*)(s2 + i))
-			return (-1);
+		if (*(unsigned char*)(s1 + i) != *(unsigned char*)(s2 + i))
+			return (*(unsigned char*)(s1 + i) - *(unsigned char*)(s2 + i));
+		i++;
 	}
 	return (0);
 }
@@ -42,8 +27,14 @@ int	main(int argc, char **argv)
 		perror("Usage: ./cub3D <Settings File Path> [--save]");
 		return (1);
 	}
-	if (!ft_strncmp(argv[2], "--save", 6))
-		game.screenshot = TRUE;
+	if (argv[2] != 0)
+		if (!ft_memcmp(argv[2], "--save", ft_strlen(argv[2])))
+			game.screenshot = TRUE;
+		else
+		{
+			perror("Unknown argument it should be --save");
+			return (1);
+		}
 	if (!parse_settings(&game, argv[1]))
 	{
 		perror("Unable to read settings. Error");

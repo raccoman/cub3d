@@ -33,7 +33,7 @@ int		run_render_battle(t_game *game)
 
 int		if_catching(t_game *game)
 {
-	ft_glRecText(vector(RESX / 2. / 3., RESY / 3.), RESY / 3, RESY / 3,
+	ft_glRecText(vector(RESX / 7., RESY / 5.), RESY / 2., RESY / 2.,
 										BACKSPRITE[STORY.own_pkm]);
 	ft_glString(40, 52, PKM_DATA[STORY.enemy_pkm].name, TXTRS.fonts[0]);
 	ft_glString(780, 322, PKM_DATA[STORY.own_pkm].name, TXTRS.fonts[0]);

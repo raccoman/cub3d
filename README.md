@@ -24,19 +24,6 @@
 </p>
 
 <h2 align="center">
-	  Collaborators
-</h2>
-<div>
-	<p align="center" style="text-align:center;">
-		<a href="https://github.com/rboldini">
-			<img src="https://avatars.githubusercontent.com/u/51327886?v=4?s=100" width="100px;" alt=""/>
-            <br/>
-            <b>rboldini</b>
-        </a>
-    </p>
-</div>
-
-<h2 align="center">
 	Contact
 </h2>
 <p align="center">

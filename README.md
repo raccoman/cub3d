@@ -27,11 +27,11 @@
   Collaborators
 </h2>
 <div>
-    <div href="https://github.com/rboldini" style="text-align:center;">
+    <p align="center" style="text-align:center;">
         <img src="https://avatars.githubusercontent.com/u/51327886?v=4?s=100" width="100px;" alt=""/>
         <br/>
-        <b>rboldini</b>
-    </div>
+        <b href="https://github.com/rboldini">rboldini</b>
+    </p>
 </div>
 
 <h2 align="center">

@@ -28,9 +28,11 @@
 </h2>
 <div>
     <p align="center" style="text-align:center;">
-        <img src="https://avatars.githubusercontent.com/u/51327886?v=4?s=100" width="100px;" alt=""/>
-        <br/>
-        <b href="https://github.com/rboldini">rboldini</b>
+        <a href="https://github.com/rboldini">
+          <img src="https://avatars.githubusercontent.com/u/51327886?v=4?s=100" width="100px;" alt=""/>
+          <br/>
+          <b>rboldini</b>
+        </a>
     </p>
 </div>
 

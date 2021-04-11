@@ -6,6 +6,10 @@
 #include "battle.h"
 
 /*
+**	Norminette V3 Status: OK!
+*/
+
+/*
 **			//Click RUN button line: 38
 **
 **	if (x >= game->res_w / 2 + game->res_w / 2 / 2

@@ -18,6 +18,26 @@ typedef enum	e_gamestate
 	PAUSE
 }				t_gamestate;
 
+typedef struct	s_texture_data
+{
+	void	*image;
+	char	*address;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		width;
+	int		height;
+}				t_texture_data;
+
+typedef struct	s_textures
+{
+	t_texture_data fonts[1];
+	t_texture_data hud[2];
+	t_texture_data environment[9];
+	t_texture_data frontsprite[152];
+	t_texture_data backsprite[152];
+}				t_textures;
+
 typedef struct	s_manager
 {
 	void	*instance;

@@ -5,8 +5,8 @@
 **	battle.c
 */
 
-# define RESX game->res_width
-# define RESY game->res_height
+# define RESX game->res_w
+# define RESY game->res_h
 # define TXTRS game->textures
 # define STORY game->story
 # define PKM_DATA game->settings.pkm_data

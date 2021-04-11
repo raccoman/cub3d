@@ -5,26 +5,26 @@
 void ft_hraycast(t_hraycasting *hraycasting, t_game *game)
 {
 	hraycasting->texture = game->textures.environment[4];
-	hraycasting->y = game->res_height / 2 + PLAYER.pitch;
-	while (hraycasting->y < game->res_height)
+	hraycasting->y = game->res_h / 2 + PLAYER.pitch;
+	while (hraycasting->y < game->res_h)
 	{
 		hraycasting->dirx = PLAYER.dirx - PLAYER.planex;
 		hraycasting->dirz = PLAYER.dirz - PLAYER.planez;
 		hraycasting->dirx1 = PLAYER.dirx + PLAYER.planex;
 		hraycasting->dirz1 = PLAYER.dirz + PLAYER.planez;
 
-		hraycasting->p = hraycasting->y - game->res_height / 2 - PLAYER.pitch;
-		hraycasting->posy = game->res_height / 2.0;
+		hraycasting->p = hraycasting->y - game->res_h / 2 - PLAYER.pitch;
+		hraycasting->posy = game->res_h / 2.0;
 		hraycasting->rowdistance = hraycasting->posy / hraycasting->p;
 
-		hraycasting->floorstepx = hraycasting->rowdistance * (hraycasting->dirx1 - hraycasting->dirx) / game->res_width;
-		hraycasting->floorstepz = hraycasting->rowdistance * (hraycasting->dirz1 - hraycasting->dirz) / game->res_width;
+		hraycasting->floorstepx = hraycasting->rowdistance * (hraycasting->dirx1 - hraycasting->dirx) / game->res_w;
+		hraycasting->floorstepz = hraycasting->rowdistance * (hraycasting->dirz1 - hraycasting->dirz) / game->res_w;
 
 		hraycasting->floorx = PLAYER.posx + hraycasting->rowdistance * hraycasting->dirx;
 		hraycasting->floorz = PLAYER.posz + hraycasting->rowdistance * hraycasting->dirz;
 
 		hraycasting->x = 0;
-		while (hraycasting->x < game->res_width)
+		while (hraycasting->x < game->res_w)
 		{
 			hraycasting->cellx = (int)hraycasting->floorx;
 			hraycasting->cellz = (int)hraycasting->floorz;
@@ -51,9 +51,9 @@ void	ft_vraycast(t_game *game, t_vraycasting *vraycasting, t_sraycasting *srayca
 {
 	vraycasting->texture = game->textures.environment[0]; //Change to add NO(0) SO(1) WE(2) EA(3)
 	vraycasting->x = 0;
-	while (vraycasting->x < game->res_width)
+	while (vraycasting->x < game->res_w)
 	{
-		vraycasting->camerax = 2 * vraycasting->x / (double)game->res_width - 1;
+		vraycasting->camerax = 2 * vraycasting->x / (double)game->res_w - 1;
 		vraycasting->dirx = PLAYER.dirx + PLAYER.planex * vraycasting->camerax;
 		vraycasting->dirz = PLAYER.dirz + PLAYER.planez * vraycasting->camerax;
 		vraycasting->mapx = PLAYER.posx;
@@ -104,13 +104,13 @@ void	ft_vraycast(t_game *game, t_vraycasting *vraycasting, t_sraycasting *srayca
 			vraycasting->perpwalldist = (vraycasting->mapx - PLAYER.posx + (1.0 - vraycasting->stepx) / 2) / vraycasting->dirx;
 		else
 			vraycasting->perpwalldist = (vraycasting->mapz - PLAYER.posz + (1.0 - vraycasting->stepz) / 2) / vraycasting->dirz;
-		vraycasting->line_height = (int)(game->res_height / vraycasting->perpwalldist);
-		vraycasting->draw_start = (int)(-vraycasting->line_height * 1.490 + (double)game->res_height / 2 + PLAYER.pitch);
+		vraycasting->line_height = (int)(game->res_h / vraycasting->perpwalldist);
+		vraycasting->draw_start = (int)(-vraycasting->line_height * 1.490 + (double)game->res_h / 2 + PLAYER.pitch);
 		if(vraycasting->draw_start < 0)
 			vraycasting->draw_start = 0;
-		vraycasting->draw_end = vraycasting->line_height / 2 + game->res_height / 2 + PLAYER.pitch;
-		if (vraycasting->draw_end > game->res_height)
-			vraycasting->draw_end = game->res_height;
+		vraycasting->draw_end = vraycasting->line_height / 2 + game->res_h / 2 + PLAYER.pitch;
+		if (vraycasting->draw_end > game->res_h)
+			vraycasting->draw_end = game->res_h;
 		if (vraycasting->side == 0)
 			vraycasting->wallx = PLAYER.posz + vraycasting->perpwalldist * vraycasting->dirz;
 		else
@@ -120,7 +120,7 @@ void	ft_vraycast(t_game *game, t_vraycasting *vraycasting, t_sraycasting *srayca
 		if ((vraycasting->side == 0 && vraycasting->dirx > 0) || (vraycasting->side == 1 && vraycasting->dirz < 0))
 			vraycasting->texturex = vraycasting->texture.width - vraycasting->texturex - 1;
 		vraycasting->step = (double)vraycasting->texture.height / (double)vraycasting->line_height * .5;
-		vraycasting->text_pos = (vraycasting->draw_start - (int)PLAYER.pitch - game->res_height / 2.0 + vraycasting->line_height * 1.5) * vraycasting->step;
+		vraycasting->text_pos = (vraycasting->draw_start - (int)PLAYER.pitch - game->res_h / 2.0 + vraycasting->line_height * 1.5) * vraycasting->step;
 		vraycasting->y = vraycasting->draw_start;
 		while (vraycasting->y < vraycasting->draw_end)
 		{

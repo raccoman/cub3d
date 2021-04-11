@@ -1,40 +1,39 @@
 #include "cub3d.h"
 #include "renderer.h"
+#include "battle.h"
 
-int		run_render_battle(t_game *game)
+/*
+**	Norminette V3 Status: OK!
+*/
+
+int	ft_run_render_battle(t_game *game)
 {
 	ft_glRecText(vector(0, 0), RESX, RESY, TXTRS.hud[0]);
-	ft_glRectangle(vector(scale_w(235.0, RESX), scale_h(111.0, RESY)),
-				(int)scale_w(256.0 / 100.0 * STORY.enemy_hp, RESX),
-				(int)scale_h(14.0, RESY),
-				hp_to_color(STORY.enemy_hp));
-	ft_glRectangle(vector(scale_w(959.0, RESX), scale_h(383.0, RESY)),
-				(int)scale_w(256.0 / 100.0 * STORY.own_hp, RESX),
-				(int)scale_h(14.0, RESY),
-				hp_to_color(STORY.own_hp));
+	ft_render_enemyhp(game);
+	ft_render_ownhp(game);
 	if (!STORY.catching)
 		ft_glRecText(vector(RESX / 3. * 2., 10), RESY / 3, RESY / 3,
-										FRONTSPRITE[STORY.enemy_pkm]);
+			FRONTSPRITE[STORY.enemy_pkm]);
 	else
 		ft_glRecText(vector(RESX / 2. + 150, -100), RESY / 2, RESY / 2,
-												TXTRS.environment[7]);
-	if_catching(game);
+			TXTRS.environment[7]);
+	ft_glRecText(vector(RESX / 7., RESY / 5.), RESY / 2., RESY / 2.,
+		BACKSPRITE[STORY.own_pkm]);
+	ft_if_catching(game);
 	if (!STORY.alive && (current_milliseconds() - STORY.atk_time) > 2000L)
 	{
 		mlx_mouse_hide();
 		game->gamestate = PLAYING;
 		playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
 	}
-	if (STORY.alive && STORY.atk_turn == 1 &&
-				(current_milliseconds() - STORY.atk_time) > 2000L)
+	if (STORY.alive && STORY.atk_turn == 1 && (current_milliseconds()
+			- STORY.atk_time) > 2000L)
 		attack_player(game);
 	return (TRUE);
 }
 
-int		if_catching(t_game *game)
+int	ft_if_catching(t_game *game)
 {
-	ft_glRecText(vector(RESX / 7., RESY / 5.), RESY / 2., RESY / 2.,
-										BACKSPRITE[STORY.own_pkm]);
 	ft_glString(40, 52, PKM_DATA[STORY.enemy_pkm].name, TXTRS.fonts[0]);
 	ft_glString(780, 322, PKM_DATA[STORY.own_pkm].name, TXTRS.fonts[0]);
 	if (STORY.catching)
@@ -43,28 +42,26 @@ int		if_catching(t_game *game)
 		{
 			if (ft_irandom(0, 101 - STORY.enemy_hp) > 25)
 			{
-				playSound("../resources/sounds/pokemon_caught.wav", SDL_MIX_MAXVOLUME);
+				playSound("../resources/sounds/pokemon_caught.wav", MAXVOL);
 				STORY.squad[STORY.count++] = STORY.enemy_pkm;
 				if (STORY.count >= 152)
 					STORY.count = 0;
 				STORY.catching = 0;
 				mlx_mouse_hide();
 				game->gamestate = PLAYING;
-				playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
+				playMusic("../resources/sounds/route42.wav", MAXVOL / 4);
 				return (TRUE);
 			}
 			STORY.catching = 0;
 			STORY.atk_turn = 1;
 			STORY.atk_time = current_milliseconds();
 		}
-		return (TRUE);
 	}
 	return (TRUE);
 }
 
-int		init_battle(t_game *game)
+int	ft_init_battle(t_game *game)
 {
-
 	playMusic("../resources/sounds/battle.wav", SDL_MIX_MAXVOLUME / 8);
 	STORY.enemy_hp = 100;
 	STORY.own_hp = 100;
@@ -79,7 +76,7 @@ int		init_battle(t_game *game)
 	return (TRUE);
 }
 
-int		attack_opponent(t_game *game)
+int	ft_attack_opponent(t_game *game)
 {
 	STORY.enemy_hp -= ft_irandom(0, MAX(60, STORY.enemy_hp));
 	STORY.alive = STORY.enemy_hp > 0;
@@ -89,7 +86,7 @@ int		attack_opponent(t_game *game)
 	return (TRUE);
 }
 
-int		attack_player(t_game *game)
+int	attack_player(t_game *game)
 {
 	STORY.own_hp -= ft_irandom(0, MAX(60, STORY.own_hp));
 	STORY.alive = STORY.own_hp > 0;

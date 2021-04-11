@@ -1,12 +1,15 @@
-# include "cub3d.h"
-# include "renderer.h"
+#include "cub3d.h"
+#include "renderer.h"
+
+/*
+**	Norminette V3 Status: OK!
+*/
 
 int	run_render_hud(t_game *game)
 {
-
 	if (game->gamestate == PLAYING)
 		if (game->story.pokeflaute)
-			ft_glRecText(vector(game->res_width - 180, game->res_height - 160), 200, 200, game->textures.hud[1]);
-
+			ft_glRecText(vector(game->res_w - 180, game->res_h - 160),
+				200, 200, game->textures.hud[1]);
 	return (TRUE);
 }

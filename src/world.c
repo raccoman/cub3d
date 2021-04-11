@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include "battle.h"
 #include "renderer.h"
 #include "raycaster.h"
 #include "screenshot.h"
@@ -10,7 +11,7 @@ int				run_render_tick(t_game *game)
 	t_vraycasting	vraycasting;
 	t_sraycasting	sraycasting;
 
-	ft_glSkyBox(game->player.yaw, game->player.pitch - 1 - abs(game->animation.walking), game->res_width, game->res_height, game->textures.environment[5]);
+	ft_glSkyBox(game->player.yaw, game->player.pitch - 1 - abs(game->animation.walking), game->res_w, game->res_h, game->textures.environment[5]);
 
 	ft_hraycast(&hraycasting, game);
 	ft_vraycast(game, &vraycasting, &sraycasting);
@@ -31,17 +32,17 @@ int				run_render_tick(t_game *game)
 		sraycasting.transformz = sraycasting.invdet * (-PLAYER.planez * sraycasting.spritex + PLAYER.planex * sraycasting.spritez);
 
 		sraycasting.vmovescreen = PLAYER.pitch;
-		sraycasting.spritescreenx = (int)((game->res_width / 2.0) * (1 + sraycasting.transformx / sraycasting.transformz));
+		sraycasting.spritescreenx = (int)((game->res_w / 2.0) * (1 + sraycasting.transformx / sraycasting.transformz));
 
-		sraycasting.spriteheight = abs((int) (game->res_height / sraycasting.transformz));
+		sraycasting.spriteheight = abs((int) (game->res_h / sraycasting.transformz));
 
-		sraycasting.drawstartz = ft_max(0, -sraycasting.spriteheight / 2 + game->res_height / 2 + sraycasting.vmovescreen);
-		sraycasting.drawendz = ft_min(game->res_height - 1, sraycasting.spriteheight / 2 + game->res_height / 2 + sraycasting.vmovescreen);
+		sraycasting.drawstartz = ft_max(0, -sraycasting.spriteheight / 2 + game->res_h / 2 + sraycasting.vmovescreen);
+		sraycasting.drawendz = ft_min(game->res_h - 1, sraycasting.spriteheight / 2 + game->res_h / 2 + sraycasting.vmovescreen);
 
-		sraycasting.spritewidth = abs((int) (game->res_height / sraycasting.transformz));
+		sraycasting.spritewidth = abs((int) (game->res_h / sraycasting.transformz));
 
 		sraycasting.drawstartx = ft_max(0, -sraycasting.spritewidth / 2 + sraycasting.spritescreenx);
-		sraycasting.drawendx = ft_min(game->res_width - 1, sraycasting.spritewidth / 2 + sraycasting.spritescreenx);
+		sraycasting.drawendx = ft_min(game->res_w - 1, sraycasting.spritewidth / 2 + sraycasting.spritescreenx);
 
 		sraycasting.texture = game->textures.environment[game->sprites[sraycasting.i].texture_id];
 
@@ -54,7 +55,7 @@ int				run_render_tick(t_game *game)
 				sraycasting.z = sraycasting.drawstartz;
 				while (sraycasting.z < sraycasting.drawendz)
 				{
-					sraycasting.d = (sraycasting.z - sraycasting.vmovescreen) * 256 - game->res_height * 128 + sraycasting.spriteheight * 128;
+					sraycasting.d = (sraycasting.z - sraycasting.vmovescreen) * 256 - game->res_h * 128 + sraycasting.spriteheight * 128;
 					sraycasting.texturey = sraycasting.d * sraycasting.texture.height / sraycasting.spriteheight / 256;
 
 					sraycasting.color = ((unsigned int *)sraycasting.texture.address)[sraycasting.texture.width * sraycasting.texturey + sraycasting.texturex];
@@ -83,7 +84,7 @@ int				run_tick(t_game *game)
 	int i;
 
 	ft_glClear(game->manager.instance, game->manager.window);
-	ft_glBegin(game->manager.instance, game->res_width, game->res_height, 0x00FF00);
+	ft_glBegin(game->manager.instance, game->res_w, game->res_h, 0x00FF00);
 
 	if (game->story.pokeflaute_time && current_milliseconds() - game->story.pokeflaute_time > 20000L)
 	{
@@ -119,7 +120,7 @@ int				run_tick(t_game *game)
 
 	if (game->gamestate == FIGHTING)
 	{
-		if (!run_render_battle(game))
+		if (!ft_run_render_battle(game))
 			return (FALSE);
 	}
 

@@ -1,5 +1,8 @@
 #include "../include/cub3d.h"
-
+#include "texture.h"
+/*
+**	Norminette V3 Status: OK!
+*/
 int	end_game(t_game *game)
 {
 	endAudio();
@@ -9,19 +12,19 @@ int	end_game(t_game *game)
 
 int	init_game(t_game *game)
 {
-    int i;
+	int	i;
 
-
-	if (!(game->manager.instance = mlx_init()))
+	game->manager.instance = mlx_init();
+	if (!(game->manager.instance))
 		return (0);
-
-	if (!(game->manager.window = mlx_new_window(game->manager.instance, game->res_width, game->res_height, "Pokemon 3D")))
+	game->manager.window = mlx_new_window(game->manager.instance,
+			game->res_w, game->res_h, "Pokemon 3D");
+	if (!(game->manager.window))
 		return (0);
-
 	mlx_hook(game->manager.window, 2, 1L << 0, &onKeyPress, game);
 	mlx_hook(game->manager.window, 3, 1L << 1, &onKeyRelease, game);
 	mlx_hook(game->manager.window, 17, 0, &onWindowClose, game);
-	mlx_mouse_hook(game->manager.window, &onMouseClick, game);
+	mlx_mouse_hook(game->manager.window, ft_onmouse_click, game);
 	mlx_loop_hook(game->manager.instance, &onGameLoop, game);
 	i = 0;
 	while (i++ < 270)
@@ -31,40 +34,21 @@ int	init_game(t_game *game)
 
 int	load_textures(t_game *game)
 {
-	size_t i;
-
-	i = 0;
-	while (i < 9)
-	{
-		if (!load_texture(game->manager.instance, &game->textures.environment[i], game->settings.env_texture_path[i]))
-			return (FALSE);
-
-		free(game->settings.env_texture_path[i]);
-		game->settings.env_texture_path[i] = NULL;
-		i++;
-	}
-	i = 0;
-	while (i < game->settings.pokemon_count)
-	{
-		if (!load_texture(game->manager.instance, &game->textures.frontsprite[i], game->settings.pkm_data[i].front_path))
-			return (FALSE);
-		if (!load_texture(game->manager.instance, &game->textures.backsprite[i], game->settings.pkm_data[i].back_path))
-			return (FALSE);
-
-		free(game->settings.pkm_data[i].front_path);
-		free(game->settings.pkm_data[i].back_path);
-		game->settings.pkm_data[i].front_path = NULL;
-		game->settings.pkm_data[i].back_path = NULL;
-		i++;
-	}
-
-	if (!load_texture(game->manager.instance, &game->textures.hud[0], "../resources/texture/hud/battle.png"))
+	if (!ft_loadEnvironment(game))
 		return (FALSE);
-
-	if (!load_texture(game->manager.instance, &game->textures.hud[1], "../resources/texture/hud/pokeflaute.png"))
+	if (!ft_loadPokemon(game))
 		return (FALSE);
-
-	if (!load_texture(game->manager.instance, &game->textures.fonts[0], "../resources/font/basic.png"))
+	if (!load_texture(game->manager.instance,
+			&game->textures.hud[0],
+			"../resources/texture/hud/battle.png"))
+		return (FALSE);
+	if (!load_texture(game->manager.instance,
+			&game->textures.hud[1],
+			"../resources/texture/hud/pokeflaute.png"))
+		return (FALSE);
+	if (!load_texture(game->manager.instance,
+			&game->textures.fonts[0],
+			"../resources/font/basic.png"))
 		return (FALSE);
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();

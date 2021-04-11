@@ -7,11 +7,11 @@ static void		ft_file_screenshot(int fd, t_data *d, t_game *game)
 	int j;
 	int color;
 	
-	i = game->res_height;
+	i = game->res_h;
 	while (--i >= 0)
 	{
 		j = -1;
-		while (++j < game->res_width)
+		while (++j < game->res_w)
 		{
 			color = *(int*)(d->address + (i * d->line_length
 					+ j * (d->bpp / 8)));
@@ -30,16 +30,16 @@ void		ft_screenshot2(t_data *d, int fd, t_game *game)
 	plane = 1;
 	zero = 0;
 	pos_pixel_data = 54;
-	size_screen = game->res_width
-		* game->res_height * 4 + 54;
+	size_screen = game->res_w
+				  * game->res_h * 4 + 54;
 	write(fd, "BM", 2);
 	write(fd, &size_screen, 4);
 	write(fd, &zero, 4);
 	write(fd, &pos_pixel_data, 4);
 	pos_pixel_data = 40;
 	write(fd, &pos_pixel_data, 4);
-	write(fd, &game->res_width, 4);
-	write(fd, &game->res_height, 4);
+	write(fd, &game->res_w, 4);
+	write(fd, &game->res_h, 4);
 	write(fd, &plane, 2);
 	plane = 32;
 	write(fd, &plane, 2);
@@ -51,11 +51,11 @@ void		ft_screenshot(t_data *d, t_game *game)
 	int zero;
 	int size;
 	fd = open("../screen.bmp", O_CREAT | O_RDWR, 0777);
-	size_screen = game->res_width
-		* game->res_height * 4 + 54;
+	size_screen = game->res_w
+				  * game->res_h * 4 + 54;
 	zero = 0;
-	size = game->res_width
-		* game->res_height;
+	size = game->res_w
+		* game->res_h;
 	if (fd < 0)
 		exit(1);
 	ft_screenshot2(d, fd, game);

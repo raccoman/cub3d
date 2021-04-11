@@ -7,8 +7,8 @@ int	parse_resolution(t_game *game, char *string)
 
 	if(!(reading = ft_skip_charset(string, "R \t"))) //Unsafe should simplify this one
 		return (FALSE);
-	game->res_width = ft_clamp(5120, 640, ft_atoi(&reading));
-	game->res_height = ft_clamp(2880, 360, ft_atoi(&reading));
+	game->res_w = ft_clamp(5120, 640, ft_atoi(&reading));
+	game->res_h = ft_clamp(2880, 360, ft_atoi(&reading));
 	free(string);
 	return (TRUE);
 }
@@ -177,7 +177,7 @@ int	parse_settings(t_game *game, const char *path)
 		return (FALSE);
 
 	/*
-	printf("Resolution: %dx%d\n", game->res_width, game->res_height);
+	printf("Resolution: %dx%d\n", game->res_w, game->res_h);
 	for (int i = 0; i < 8; ++i)
 		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
 	for (int i = 0; i < game->settings.pokemon_count; ++i)

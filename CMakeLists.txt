@@ -33,7 +33,7 @@ set(SRCS
 		src/hud.c
 		src/key.c
 		src/raycaster.c
-		src/sound.c src/screenshot.c)
+		src/sound.c src/screenshot.c src/battle_v3.c src/mouse_event.c)
 
 add_executable(${PROJECT_NAME} main.c ${SRCS})
 

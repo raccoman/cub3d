@@ -3,7 +3,6 @@
 
 # include "mlx.h"
 # include "settings.h"
-# include "texture.h"
 # include "utils.h"
 # include "keyboard.h"
 # include <time.h>
@@ -82,8 +81,8 @@ typedef struct	s_story
 
 typedef struct	s_game
 {
-	int				res_height;
-	int				res_width;
+	int				res_h;
+	int				res_w;
 	int				screenshot;
 	signed char 	**map;
 	t_sprite		*sprites;
@@ -104,7 +103,7 @@ int				onKeyPress(int key, t_game *game);
 
 int				onKeyRelease(int key, t_game *game);
 
-int				onMouseClick(int button, int x, int y, t_game *game);
+int				ft_onmouse_click(int button, int x, int y, t_game *game);
 
 int				onGameLoop(t_game *game);
 
@@ -134,17 +133,12 @@ int				is_colliding(t_game *game, int x, int z);
 
 int				init_story(t_game *game);
 
-int				run_render_battle(t_game *game);
 
-int				init_battle(t_game *game);
 
-int				attack_opponent(t_game *game);
-
-int				attack_player(t_game *game);
 
 int				run_render_hud(t_game *game);
 
-int				if_catching(t_game *game);
+
 
 int				end_game(t_game *game);
 

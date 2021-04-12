@@ -170,15 +170,5 @@ int	parse_settings(t_game *game, const char *path)
 	if (!ft_contains_only(line,"01234NSWE ") || !parse_map(game, line))
 		return (FALSE);
 
-	/*
-	printf("Resolution: %dx%d\n", game->res_w, game->res_h);
-	for (int i = 0; i < 8; ++i)
-		printf("Texture #%d: [%s]\n", i, game->settings.env_texture_path[i]);
-	for (int i = 0; i < game->settings.pokemon_count; ++i)
-		printf("Pokemon #%d: %s %s %s\n", i, game->settings.pkm_data[i].name, game->settings.pkm_data[i].front_path, game->settings.pkm_data[i].back_path);
-	 for (int i = 0; game->map[i] != NULL ; ++i) {
-		printf("%s\n", game->map[i]);
-	}
-	 printf("Spawn: %f %f %d", game->settings.spawn.x, game->settings.spawn.z, game->settings.direction);*/
 	return (TRUE);
 }

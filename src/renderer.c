@@ -132,8 +132,7 @@ void	ft_glSkyBox(int offsetx, int offsety, int res_width, int res_height, t_text
 	z = 0;
 	while (z < res_height)
 	{
-		//TODO: Recode vertical skybox
-		horizon = z + (res_height * 100 / 720) - res_height / 2 + offsety;
+		horizon = z + offsety;
 		x = 0;
 		while (x < res_width - offsetx)
 		{

@@ -10,8 +10,8 @@ find_library(SDL2_FRAMEWORK SDL2)
 include_directories(./include)
 include_directories(./include/gnl)
 include_directories(./include/libft)
-include_directories(./include/zlib)
 include_directories(./include/mlx)
+include_directories(./include/sdl)
 
 
 set(LINK_LIBRARIES ${CMAKE_SOURCE_DIR}/include)
@@ -33,14 +33,17 @@ set(SRCS
 		src/hud.c
 		src/key.c
 		src/raycaster.c
-		src/sound.c src/screenshot.c src/battle_v3.c src/mouse_event.c)
+		src/sound.c
+		src/screenshot.c
+		src/battle_v3.c
+		src/mouse_event.c)
 
 add_executable(${PROJECT_NAME} main.c ${SRCS})
 
 target_link_libraries(${PROJECT_NAME}
 		${OPENGL_FRAMEWORK}
 		${APPKIT_FRAMEWORK}
-		${SDL2_FRAMEWORK}
+		${LINK_LIBRARIES}/sdl/libSDL2.a
 		${LINK_LIBRARIES}/zlib/libz.a
 		${LINK_LIBRARIES}/gnl/gnl.a
 		${LINK_LIBRARIES}/libft/libft.a

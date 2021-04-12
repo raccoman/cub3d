@@ -1,5 +1,5 @@
 #include <printf.h>
-# include "parser.h"
+# include "../headers/parser.h"
 
 int	parse_resolution(t_game *game, char *string)
 {

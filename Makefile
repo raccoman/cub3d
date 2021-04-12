@@ -4,15 +4,19 @@ NAME =			cub3D
 #Compiler
 CC = 			gcc
 CFLAGS = 		-Wall -Wextra -Werror
-LIBRARIES =		-framework OpenGL -framework AppKit $(LIBFT) $(MLX) $(GNL) $(ZLIB) $(SDL2DIR)/$(SDL2)
+FRAMEWORKS =	-framework OpenGL -framework AppKit $(SDL2_DIR)/$(SDL2)
+LIBRARIES =		$(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX) $(GNL_DIR)/$(GNL) $(ZLIB_DIR)/$(ZLIB) $(SOUND_DIR)/$(SOUND)
 CFLAG = 		-c
 OFLAG =			-o
 IFLAG =			-I
 
 #Make
-MAKE = 			make -C
-MAKE_CLEAN = 	make clean -C
-MAKE_FCLEAN = 	make fclean -C
+MAKE = 			make -s -C
+MAKE_CLEAN = 	make clean -s -C
+MAKE_FCLEAN = 	make fclean -s -C
+
+#Unzip
+UNZIP =			unzip -X -o -q
 
 #Norm
 NORM =			norminette
@@ -23,21 +27,26 @@ CP =			cp
 RM =			rm -rf
 
 #Directories
-SRCDIR = 		./src
-OBJDIR =  		./objs
-INCDIR = 		./include
-LIBFTDIR = 		./include/libft
-MLXDIR = 		./include/mlx
-ZLIBDIR = 		./include/zlib
-GNLDIR =		./include/gnl
-SDL2DIR =		./include/sdl2/SDL2.framework
+SOURCES_DIR = 	./src
+OBJECTS_DIR =  	./objs
+HEADERS_DIR = 	./headers
+BUILD_DIR =		./build
+LIBRARIES_DIR = ./libraries
+
+LIBFT_DIR = 	./libraries/libft
+MLX_DIR = 		./libraries/mlx
+ZLIB_DIR = 		./libraries/zlib
+GNL_DIR =		./libraries/gnl
+SOUND_DIR =		./libraries/sound
+SDL2_DIR =		./libraries/sdl2
 
 #Libs
-LIBFT = 		libft.a
-MLX = 			libmlx.a
-ZLIB =			libz.a
-GNL = 			gnl.a
-SDL2 =			SDL2
+LIBFT = 	libft.a
+MLX = 		libmlx.a
+ZLIB =		libz.a
+GNL =		gnl.a
+SOUND =		sound.a
+SDL2 =		SDL2.framework/SDL2
 
 #Files
 FILES =		cub3d.c \
@@ -57,58 +66,62 @@ FILES =		cub3d.c \
 			hud.c \
 			key.c \
 			raycaster.c \
-			sound.c \
 			screenshot.c \
 			battle_v3.c \
 			mouse_event.c
 
 #Srcs
-SRCS =			$(foreach FILE, $(FILES), $(shell find $(SRCDIR) -name $(FILE)))
+SRCS =			$(foreach FILE, $(FILES), $(shell find $(SOURCES_DIR) -name $(FILE)))
 
 #Objs
-OBJS =			$(patsubst $(SRCDIR)/%, $(OBJDIR)/%, $(SRCS:.c=.o))
+OBJS =			$(patsubst $(SOURCES_DIR)/%, $(OBJECTS_DIR)/%, $(SRCS:.c=.o))
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c
 	@$(MKDIR) $(@D)
-	@$(CC) $(CFLAGS) $(IFLAG) $(INCDIR) $(CFLAG) $(OFLAG) $@ $<
+	@$(CC) $(CFLAGS) $(IFLAG) $(HEADERS_DIR) $(IFLAG) $(LIBRARIES_DIR) $(CFLAG) $(OFLAG) $@ $<
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(GNL) $(MLX) $(ZLIB)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBRARIES) main.c $(OFLAG) $(NAME)
+$(NAME): $(LIBFT) $(GNL) $(MLX) $(ZLIB) $(SDL2) $(SOUND) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(FRAMEWORKS) $(LIBRARIES) main.c $(OFLAG) $(NAME)
+	@echo "Done!"
 
 $(LIBFT):
-	@$(MAKE) $(LIBFTDIR)
-	@$(CP) $(LIBFTDIR)/$(LIBFT) .
+	@$(UNZIP) libraries/libft.zip -d libraries
+	@$(MAKE) $(LIBFT_DIR)
 
 $(ZLIB):
-##	@$(MAKE) $(ZLIBDIR)
-	@$(CP) $(ZLIBDIR)/$(ZLIB) .
+	@$(UNZIP) libraries/zlib.zip -d libraries
+	@cd libraries/zlib; bash configure; make; cd ../../
 
 $(MLX):
-	@$(MAKE) $(MLXDIR)
-	@$(CP) $(MLXDIR)/$(MLX) .
+	@$(UNZIP) libraries/mlx.zip -d libraries
+	@$(MAKE) $(MLX_DIR)
 
 $(GNL):
-	@$(MAKE) $(GNLDIR)
-	@$(CP) $(GNLDIR)/$(GNL) .
+	@$(UNZIP) libraries/gnl.zip -d libraries
+	@$(MAKE) $(GNL_DIR)
+
+$(SOUND):
+	@$(UNZIP) libraries/sound.zip -d libraries
+	@$(MAKE) $(SOUND_DIR)
+
+$(SDL2):
+	@$(UNZIP) libraries/sdl2.zip -d libraries
 
 norminette:
-	@$(NORM) $(shell find $(SRCDIR) -name *.c)
-	@$(NORM) $(shell find $(INCDIR) -name *.h)
+	@$(NORM) $(shell find $(SOURCES_DIR) -name *.c)
+	@$(NORM) $(shell find $(HEADERS_DIR) -name *.h)
 
 clean:
-	@$(RM) $(OBJDIR) $(LIBFT) $(GNL) $(MLX) $(ZLIB)
-	@$(MAKE_CLEAN) $(LIBFTDIR)
-	@$(MAKE_CLEAN) $(GNLDIR)
-	@$(MAKE_CLEAN) $(MLXDIR)
+	@$(RM) $(OBJECTS_DIR) $(LIBFT_DIR) $(GNL_DIR) $(MLX_DIR) $(ZLIB_DIR) $(SOUND_DIR) $(SDL2_DIR)
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE_FCLEAN) $(LIBFTDIR)
-	@$(MAKE_CLEAN) $(GNLDIR)
-	@$(MAKE_CLEAN) $(MLXDIR)
 
 re: fclean all
 
-.PHONY: all norminette clean fclean re
+run: all
+	@./$(NAME) settings.cub
+
+.PHONY: all norminette clean fclean re run

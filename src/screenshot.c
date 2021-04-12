@@ -1,5 +1,5 @@
-#include "cub3d.h"
-#include "renderer.h"
+#include "../headers/cub3d.h"
+#include "../headers/renderer.h"
 
 static void		ft_file_screenshot(int fd, t_data *d, t_game *game)
 {

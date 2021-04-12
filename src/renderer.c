@@ -1,4 +1,4 @@
-# include "renderer.h"
+# include "../headers/renderer.h"
 
 uint32_t	ft_rgba(int red, int green, int blue, int alpha)
 {

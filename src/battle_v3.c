@@ -2,8 +2,8 @@
 // Created by Roberto Boldini on 11/04/21.
 //
 
-#include "cub3d.h"
-#include "renderer.h"
+#include "../headers/cub3d.h"
+#include "../headers/renderer.h"
 
 /*
 **	Norminette V3 Status: OK!

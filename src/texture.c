@@ -1,5 +1,5 @@
-#include "texture.h"
-#include "cub3d.h"
+#include "../headers/texture.h"
+#include "../headers/cub3d.h"
 
 int	load_texture(void *mlx_instance, t_texture_data *save_to, char *resource)
 {

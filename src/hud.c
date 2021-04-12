@@ -1,5 +1,5 @@
-#include "cub3d.h"
-#include "renderer.h"
+#include "../headers/cub3d.h"
+#include "../headers/renderer.h"
 
 /*
 **	Norminette V3 Status: OK!

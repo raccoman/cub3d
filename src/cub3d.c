@@ -1,5 +1,5 @@
-#include "cub3d.h"
-#include "texture.h"
+#include "../headers/cub3d.h"
+#include "../headers/texture.h"
 /*
 **	Norminette V3 Status: OK!
 */

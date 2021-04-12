@@ -1,6 +1,6 @@
-#include "cub3d.h"
-#include "raycaster.h"
-#include "renderer.h"
+#include "../headers/cub3d.h"
+#include "../headers/raycaster.h"
+#include "../headers/renderer.h"
 
 void ft_hraycast(t_hraycasting *hraycasting, t_game *game)
 {

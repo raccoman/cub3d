@@ -1,4 +1,4 @@
-# include "cub3d.h"
+# include "../headers/cub3d.h"
 
 # define MILLIS_PER_TICK 50
 

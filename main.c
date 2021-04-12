@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "include/parser.h"
-#include "include/cub3d.h"
+#include "headers/parser.h"
+#include "headers/cub3d.h"
 
 int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {

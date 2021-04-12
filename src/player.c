@@ -1,5 +1,5 @@
-#include "cub3d.h"
-#include "key.h"
+#include "../headers/cub3d.h"
+#include "../headers/key.h"
 
 void		init_playerdir(t_player *player, t_vector dir, t_vector plane)
 {

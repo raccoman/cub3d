@@ -1,5 +1,5 @@
-#include "cub3d.h"
-#include "battle.h"
+#include "../headers/cub3d.h"
+#include "../headers/battle.h"
 
 /*
 **	Norminette V3 Status: OK!

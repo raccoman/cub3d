@@ -1,4 +1,4 @@
-# include "cub3d.h"
+# include "../headers/cub3d.h"
 
 int	run_mouse_tick(t_game *game)
 {

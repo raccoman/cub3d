@@ -1,6 +1,4 @@
-#include "utils.h"
-#include "cub3d.h"
-#include "sound.h"
+#include "../headers/utils.h"
 
 t_vector	vector(double x, double z)
 {

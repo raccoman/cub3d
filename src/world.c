@@ -1,8 +1,8 @@
-#include "cub3d.h"
-#include "battle.h"
-#include "renderer.h"
-#include "raycaster.h"
-#include "screenshot.h"
+#include "../headers/cub3d.h"
+#include "../headers/battle.h"
+#include "../headers/renderer.h"
+#include "../headers/raycaster.h"
+#include "../headers/screenshot.h"
 
 
 int				run_render_tick(t_game *game)

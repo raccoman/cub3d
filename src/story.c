@@ -1,4 +1,4 @@
-# include "cub3d.h"
+# include "../headers/cub3d.h"
 
 int	init_story(t_game *game)
 {

@@ -1,4 +1,4 @@
-#include "../include/cub3d.h"
+#include "cub3d.h"
 #include "texture.h"
 /*
 **	Norminette V3 Status: OK!
@@ -40,15 +40,15 @@ int	load_textures(t_game *game)
 		return (FALSE);
 	if (!load_texture(game->manager.instance,
 			&game->textures.hud[0],
-			"../resources/texture/hud/battle.png"))
+			"./resources/texture/hud/battle.png"))
 		return (FALSE);
 	if (!load_texture(game->manager.instance,
 			&game->textures.hud[1],
-			"../resources/texture/hud/pokeflaute.png"))
+			"./resources/texture/hud/pokeflaute.png"))
 		return (FALSE);
 	if (!load_texture(game->manager.instance,
 			&game->textures.fonts[0],
-			"../resources/font/basic.png"))
+			"./resources/font/basic.png"))
 		return (FALSE);
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
@@ -59,7 +59,7 @@ int	run_game(t_game *game)
 {
 	game->gamestate = PLAYING;
 	mlx_mouse_hide();
-	playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
+	playMusic("./resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
 	init_story(game);
 	init_player(game->settings, &game->player, &game->animation);
 	game->timer.last_update = current_milliseconds();

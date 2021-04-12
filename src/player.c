@@ -38,7 +38,7 @@ int			run_player_tick(t_game *game)
 	{
 		if (current_milliseconds() - game->animation.footstep_time > 450L)
 		{
-			playSound("../resources/sounds/footsteps.wav", SDL_MIX_MAXVOLUME);
+			playSound("./resources/sounds/footsteps.wav", SDL_MIX_MAXVOLUME);
 			game->animation.footstep_time = current_milliseconds();
 		}
 		if (current_milliseconds() - game->animation.walking_time >= 50L) {

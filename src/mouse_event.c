@@ -34,7 +34,7 @@ void	ft_clickrun(t_game *game, int x, int y)
 	{
 		mlx_mouse_hide();
 		game->gamestate = PLAYING;
-		playMusic("../resources/sounds/route42.wav", MAXVOL / 4);
+		playMusic("./resources/sounds/route42.wav", MAXVOL / 4);
 	}
 }
 
@@ -46,7 +46,7 @@ void	ft_clickcatch(t_game *game, int x, int y)
 		if (game->story.alive && game->story.atk_turn == 0
 			&& (current_milliseconds() - game->story.atk_time) > 2000L)
 		{
-			playSound("../resources/sounds/pokemon_wiggle.wav", MAXVOL * 4);
+			playSound("./resources/sounds/pokemon_wiggle.wav", MAXVOL * 4);
 			game->story.catching = 1;
 			game->story.catching_time = current_milliseconds();
 		}

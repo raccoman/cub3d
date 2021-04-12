@@ -50,7 +50,7 @@ void		ft_screenshot(t_data *d, t_game *game)
 	int size_screen;
 	int zero;
 	int size;
-	fd = open("../screen.bmp", O_CREAT | O_RDWR, 0777);
+	fd = open("./screen.bmp", O_CREAT | O_RDWR, 0777);
 	size_screen = game->res_w
 				  * game->res_h * 4 + 54;
 	zero = 0;

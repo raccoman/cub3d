@@ -1,4 +1,3 @@
 .DS_Store
 .idea/
 cmake-build-debug/
-include/Library/

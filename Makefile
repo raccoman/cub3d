@@ -4,6 +4,7 @@ NAME =					cub3D
 #Compiler
 CC = 			gcc
 CFLAGS = 		-Wall -Wextra -Werror
+LIBS =		$(MLX) -lm -framework OpenGL -framework AppKit $(GNL) $(ZLIB) $(SDL2DIR)/$(SDL2)
 CFLAG = 		-c
 OFLAG =			-o
 IFLAG =			-I
@@ -25,16 +26,19 @@ RM =			rm -rf
 SRCDIR = 		./src
 OBJDIR =  		./objs
 INCDIR = 		./include
-LIBFTDIR = 		./libft
+LIBFTDIR = 		./include/libft
 MLXDIR = 		./include/mlx
-ZLIBDIR = 			./include/zlib
-GNLDIR =			./include/gnl
+ZLIBDIR = 		./include/zlib
+GNLDIR =		./include/gnl
+SDL2DIR =		./include/Library/Frameworks/SDL2.framework
 
 #Libs
 LIBFT = 		libft.a
+MLXMMS = 		libmlx.dylib
 MLX = 			libmlx.a
 ZLIB =			libz.a
 GNL = 			gnl.a
+SDL2=			SDL2
 
 #Files
 FILES =		cub3d.c \
@@ -59,6 +63,8 @@ FILES =		cub3d.c \
 			battle_v3.c \
 			mouse_event.c
 
+INCLUDE :=	-I./include -I.include/libft -I.include/libmlx
+
 #Srcs
 SRCS =			$(foreach FILE, $(FILES), $(shell find $(SRCDIR) -name $(FILE)))
 
@@ -67,12 +73,12 @@ OBJS =			$(patsubst $(SRCDIR)/%, $(OBJDIR)/%, $(SRCS:.c=.o))
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@$(MKDIR) $(@D)
-	@$(CC) $(CFLAGS) $(IFLAG) $(INCDIR) $(CFLAG) $(OFLAG) $@ $<
+	@$(CC) $(CFLAGS) $(IFLAG) $(INCDIR) $(IFLAG) $(GNL) $(CFLAG) $(OFLAG) $@ $<
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(GNL) $(ZLIB) $(MLX)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(OFLAG) $(NAME)
+$(NAME): $(OBJS) $(LIBFT) $(GNL) $(MLX) $(ZLIB)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I $(MLX) $(LIBS) main.c $(OFLAG) $(NAME)
 
 $(LIBFT):
 	@$(MAKE) $(LIBFTDIR)
@@ -96,15 +102,15 @@ norminette:
 
 clean:
 	@$(RM) $(OBJDIR) $(OBJS) $(LIBFT) $(GNL) $(MLX) $(ZLIB)
-	@$(MAKE_CLEAN) ./include/$(LIBFTDIR)
+	@$(MAKE_CLEAN) $(LIBFTDIR)
 	@$(MAKE_CLEAN) $(GNLDIR)
 	@$(MAKE_CLEAN) $(MLXDIR)
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE_FCLEAN) ./include/$(LIBFTDIR)
-	@$(MAKE_CLEAN) ./include/$(GNLDIR)
-	@$(MAKE_CLEAN) ./include/$(MLXDIR)
+	@$(MAKE_FCLEAN) $(LIBFTDIR)
+	@$(MAKE_CLEAN) $(GNLDIR)
+	@$(MAKE_CLEAN) $(MLXDIR)
 
 re: fclean all
 

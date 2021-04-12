@@ -96,7 +96,7 @@ int				run_tick(t_game *game)
 				break;
 			}
 		}
-		playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
+		playMusic("./resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
 		game->story.pokeflaute_time = 0;
 	}
 

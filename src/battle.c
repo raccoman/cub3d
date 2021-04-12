@@ -24,7 +24,7 @@ int	ft_run_render_battle(t_game *game)
 	{
 		mlx_mouse_hide();
 		game->gamestate = PLAYING;
-		playMusic("../resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
+		playMusic("./resources/sounds/route42.wav", SDL_MIX_MAXVOLUME / 4);
 	}
 	if (STORY.alive && STORY.atk_turn == 1 && (current_milliseconds()
 			- STORY.atk_time) > 2000L)
@@ -42,14 +42,14 @@ int	ft_if_catching(t_game *game)
 		{
 			if (ft_irandom(0, 101 - STORY.enemy_hp) > 25)
 			{
-				playSound("../resources/sounds/pokemon_caught.wav", MAXVOL);
+				playSound("./resources/sounds/pokemon_caught.wav", MAXVOL);
 				STORY.squad[STORY.count++] = STORY.enemy_pkm;
 				if (STORY.count >= 152)
 					STORY.count = 0;
 				STORY.catching = 0;
 				mlx_mouse_hide();
 				game->gamestate = PLAYING;
-				playMusic("../resources/sounds/route42.wav", MAXVOL / 4);
+				playMusic("./resources/sounds/route42.wav", MAXVOL / 4);
 				return (TRUE);
 			}
 			STORY.catching = 0;
@@ -62,7 +62,7 @@ int	ft_if_catching(t_game *game)
 
 int	ft_init_battle(t_game *game)
 {
-	playMusic("../resources/sounds/battle.wav", SDL_MIX_MAXVOLUME / 8);
+	playMusic("./resources/sounds/battle.wav", SDL_MIX_MAXVOLUME / 8);
 	STORY.enemy_hp = 100;
 	STORY.own_hp = 100;
 	STORY.own_pkm = STORY.squad[ft_irandom(0, STORY.count)];
@@ -82,7 +82,7 @@ int	ft_attack_opponent(t_game *game)
 	STORY.alive = STORY.enemy_hp > 0;
 	STORY.atk_turn = 1;
 	STORY.atk_time = current_milliseconds();
-	playSound("../resources/sounds/attack.wav", SDL_MIX_MAXVOLUME);
+	playSound("./resources/sounds/attack.wav", SDL_MIX_MAXVOLUME);
 	return (TRUE);
 }
 
@@ -92,6 +92,6 @@ int	attack_player(t_game *game)
 	STORY.alive = STORY.own_hp > 0;
 	STORY.atk_turn = 0;
 	STORY.atk_time = current_milliseconds();
-	playSound("../resources/sounds/attack.wav", SDL_MIX_MAXVOLUME);
+	playSound("./resources/sounds/attack.wav", SDL_MIX_MAXVOLUME);
 	return (TRUE);
 }

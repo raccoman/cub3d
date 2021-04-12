@@ -61,14 +61,14 @@ int	onCollideSprite(t_game *game, t_sprite *sprite)
 	}
 	else if (sprite->texture_id == BALL && KEY_PRESSED(KEY_E))
 	{
-		playSound("../resources/sounds/found_pokeball.wav", SDL_MIX_MAXVOLUME);
+		playSound("./resources/sounds/found_pokeball.wav", SDL_MIX_MAXVOLUME);
 		sprite->present = 0;
 		game->story.pokeflaute = 1;
 	}
 	else if (sprite->texture_id == SNORLAX && KEY_PRESSED(KEY_E)
 		&& game->story.pokeflaute && !game->story.pokeflaute_time)
 	{
-		playMusic("../resources/sounds/pokeflaute.wav", SDL_MIX_MAXVOLUME);
+		playMusic("./resources/sounds/pokeflaute.wav", SDL_MIX_MAXVOLUME);
 		game->story.pokeflaute_time = current_milliseconds();
 	}
 	return (1);

@@ -38,8 +38,8 @@ int	parse_pokemon(t_game *game, char *string)
 	file_name = reading;
 
 	game->settings.pkm_data[game->settings.pokemon_count].name = ft_terminate_at(ft_strdup(name), " \t\r");
-	game->settings.pkm_data[game->settings.pokemon_count].back_path = ft_concatenate("../resources/texture/pokemon/back/", file_name);
-	game->settings.pkm_data[game->settings.pokemon_count].front_path = ft_concatenate("../resources/texture/pokemon/front/", file_name);
+	game->settings.pkm_data[game->settings.pokemon_count].back_path = ft_concatenate("./resources/texture/pokemon/back/", file_name);
+	game->settings.pkm_data[game->settings.pokemon_count].front_path = ft_concatenate("./resources/texture/pokemon/front/", file_name);
 	game->settings.pokemon_count++;
 
 	free(string);
@@ -65,7 +65,6 @@ int	parse_map(t_game *game, char *string)
 		new_map[i] = game->map[i];
 		i++;
 	}
-
 	if ((spawn = ft_find(string, "NSWE")) >= 0)
 	{
 		if (game->settings.spawn.x != -1)
@@ -82,13 +81,11 @@ int	parse_map(t_game *game, char *string)
 			game->settings.direction = EAST;
 		string[spawn] = '0';
 	}
-
 	while ((sprite = ft_find(string, "234")) >= 0)
 	{
 		game->sprite_count++;
 		if (!(new_sprites = malloc(sizeof(t_sprite) * (game->sprite_count + 1))))
 			return (FALSE);
-
 		k = 0;
 		while (k < (game->sprite_count - 1))
 		{
@@ -105,12 +102,10 @@ int	parse_map(t_game *game, char *string)
 			new_sprites[k].texture_id = 7;
 		else if (string[sprite] == '4')
 			new_sprites[k].texture_id = 8;
-
 		free(game->sprites);
 		game->sprites = new_sprites;
 		string[sprite] = '0';
 	}
-
 	new_map[i] = (signed char *)ft_strdup(string);
 	new_map[i + 1] = NULL;
 	free(game->map);
@@ -125,8 +120,7 @@ int	parse_settings(t_game *game, const char *path)
 	char	*line;
 
 	if ((fd = open(path, O_RDONLY)) < 0)
-        return (FALSE);
-
+		return (FALSE);
 	if (gnnel(fd, &line) < 0 || !ft_starts_with(line, "R") || !parse_resolution(game, line))
 			return (FALSE);
 

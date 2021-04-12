@@ -1,16 +1,16 @@
 R 1280 720
 
-NO ../resources/texture/environment/wall.png
-SO ../resources/texture/environment/wall.png
-WE ../resources/texture/environment/wall.png
-EA ../resources/texture/environment/wall.png
+NO ./resources/texture/environment/wall.png
+SO ./resources/texture/environment/wall.png
+WE ./resources/texture/environment/wall.png
+EA ./resources/texture/environment/wall.png
 
-F ../resources/texture/environment/floor.png
-C ../resources/texture/environment/skybox.png
+F ./resources/texture/environment/floor.png
+C ./resources/texture/environment/skybox.png
 
-S_BUSH ../resources/texture/environment/bush.png
-S_MASTERBALL ../resources/texture/environment/masterball.png
-S_SNORLAX ../resources/texture/environment/snorlax.png
+S_BUSH ./resources/texture/environment/bush.png
+S_MASTERBALL ./resources/texture/environment/masterball.png
+S_SNORLAX ./resources/texture/environment/snorlax.png
 
 POKEMON Victini victini.png
 POKEMON Zekrom zekrom.png

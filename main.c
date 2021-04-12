@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "parser.h"
-#include "cub3d.h"
+#include "include/parser.h"
+#include "include/cub3d.h"
 
 int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
@@ -28,6 +28,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (argv[2] != 0)
+	{
 		if (!ft_memcmp(argv[2], "--save", ft_strlen(argv[2])))
 			game.screenshot = TRUE;
 		else
@@ -35,6 +36,7 @@ int	main(int argc, char **argv)
 			perror("Unknown argument it should be --save");
 			return (1);
 		}
+	}
 	if (!parse_settings(&game, argv[1]))
 	{
 		perror("Unable to read settings. Error");

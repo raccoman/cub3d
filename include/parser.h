@@ -3,7 +3,7 @@
 
 # include "cub3d.h"
 # include "gnl.h"
-# include "libft.h"
+# include "libft/libft.h"
 # include <fcntl.h>
 
 typedef enum	s_texture_path {

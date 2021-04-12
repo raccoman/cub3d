@@ -117,7 +117,7 @@ typedef struct	s_game
 	t_manager		manager;
 }				t_game;
 
-int				onWindowClose(t_game *game);
+int				onWindowClose();
 
 int				onKeyPress(int key, t_game *game);
 
@@ -160,6 +160,6 @@ int				run_render_hud(t_game *game);
 
 
 
-int				end_game(t_game *game);
+int				end_game();
 
 #endif

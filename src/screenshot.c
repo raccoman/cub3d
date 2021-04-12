@@ -20,7 +20,7 @@ static void		ft_file_screenshot(int fd, t_data *d, t_game *game)
 	}
 }
 
-void		ft_screenshot2(t_data *d, int fd, t_game *game)
+void		ft_screenshot2(int fd, t_game *game)
 {
 	int		size_screen;
 	int		pos_pixel_data;
@@ -58,7 +58,7 @@ void		ft_screenshot(t_data *d, t_game *game)
 		* game->res_h;
 	if (fd < 0)
 		exit(1);
-	ft_screenshot2(d, fd, game);
+	ft_screenshot2(fd, game);
 	write(fd, &zero, 4);
 	write(fd, &size, 4);
 	size_screen = 1000;

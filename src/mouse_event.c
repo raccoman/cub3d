@@ -57,15 +57,18 @@ void	ft_clickattack(t_game *game, int x, int y)
 {
 	if (x >= game->res_w / 2 && x <= 3 * game->res_w / 4
 		&& y >= 2 * game->res_h / 3 && y <= 5 * game->res_h / 6)
+	{
 		if (game->story.alive && game->story.atk_turn == 0
 			&& (current_milliseconds() - game->story.atk_time) > 2000L)
 			ft_attack_opponent(game);
+	}
 }
 
 int	ft_onmouse_click(int button, int x, int y, t_game *game)
 {
 	if (game->gamestate == FIGHTING)
 	{
+		button = 1 * button;
 		ft_clickrun(game, x, y);
 		ft_clickcatch(game, x, y);
 		ft_clickattack(game, x, y);

@@ -84,7 +84,7 @@ static void addMusic(t_audio * root, t_audio * newAudio);
  * @param volume        See playSound for explanation
  *
  */
-static inline void playAudio(const char * filename, t_audio * audio, uint8_t loop, int volume);
+static inline void playAudio(const char *filename, t_audio *audio, uint8_t loop, int volume);
 
 /*
  * Add a sound to the end of the queue
@@ -93,7 +93,7 @@ static inline void playAudio(const char * filename, t_audio * audio, uint8_t loo
  * @param newAudio       New t_audio to add
  *
  */
-static void addAudio(t_audio * root, t_audio * newAudio);
+static void addAudio(t_audio *root, t_audio *newAudio);
 
 /*
  * t_audio callback function for OpenAudioDevice
@@ -417,7 +417,7 @@ static inline void audioCallback(void * userdata, uint8_t * stream, int len)
 			audio->length -= tempLength;
 
 			previous = audio;
-			audio = audio->next;
+			audio = (t_audio *)audio->next;
 		}
 		else if(audio->loop == 1 && audio->fade == 0)
 		{
@@ -436,12 +436,12 @@ static inline void audioCallback(void * userdata, uint8_t * stream, int len)
 			audio->next = NULL;
 			freeAudio(audio);
 
-			audio = previous->next;
+			audio = (t_audio *)previous->next;
 		}
 	}
 }
 
-static void addAudio(t_audio * root, t_audio * newAudio)
+static void addAudio(t_audio *root, t_audio *newAudio)
 {
 	if(root == NULL)
 	{

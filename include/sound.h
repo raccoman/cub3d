@@ -19,7 +19,7 @@ typedef struct s_sound
 	uint8_t			free;
 	uint8_t			volume;
 	SDL_AudioSpec	audio;
-	struct t_audio	*next;
+	struct s_sound	*next;
 }					t_audio;
 
 /*

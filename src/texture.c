@@ -49,4 +49,5 @@ int	ft_loadEnvironment(t_game *game)
 		game->settings.env_texture_path[i] = NULL;
 		i++;
 	}
+	return (TRUE);
 }

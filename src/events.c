@@ -12,7 +12,7 @@ typedef enum e_nsprite
 	SNORLAX = 8,
 }			t_nsprite;
 
-int	onWindowClose(t_game *game)
+int	onWindowClose()
 {
 	return (1);
 }

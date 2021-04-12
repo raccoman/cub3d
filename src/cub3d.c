@@ -3,7 +3,7 @@
 /*
 **	Norminette V3 Status: OK!
 */
-int	end_game(t_game *game)
+int	end_game()
 {
 	endAudio();
 	SDL_Quit();

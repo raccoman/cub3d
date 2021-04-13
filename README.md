@@ -22,6 +22,12 @@
 <p align="center">
 	<img src="https://github.com/raccoman/media/blob/main/cub3d.gif"/>
 </p>
+<p align="center">
+	<img src="https://github.com/raccoman/media/blob/main/cub3d.jpeg"/>
+</p>
+<p align="center">
+	<img src="https://github.com/raccoman/media/blob/main/cub3d-battle.jpeg"/>
+</p>
 
 
 <h2 align="center">

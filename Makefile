@@ -124,4 +124,7 @@ re: fclean all
 run: all
 	@./$(NAME) settings.cub
 
-.PHONY: all norminette clean fclean re run
+screenshot:
+	@./$(NAME) settings.cub --save
+
+.PHONY: all screeshot norminette clean fclean re run

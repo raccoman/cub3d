@@ -114,7 +114,7 @@ norminette:
 	@$(NORM) $(shell find $(HEADERS_DIR) -name *.h)
 
 clean:
-	@$(RM) $(OBJECTS_DIR) $(LIBFT_DIR) $(GNL_DIR) $(MLX_DIR) $(ZLIB_DIR) $(SOUND_DIR) $(SDL2_DIR)
+	@$(RM) $(OBJECTS_DIR) $(LIBFT_DIR) $(GNL_DIR) $(MLX_DIR) $(ZLIB_DIR) $(SOUND_DIR) $(SDL2_DIR) $(LIBRARIES_DIR)/__MACOSX
 
 fclean: clean
 	@$(RM) $(NAME)

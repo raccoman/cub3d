@@ -73,7 +73,7 @@ int				run_render_tick(t_game *game)
 	if (game->screenshot)
 		{
 				ft_screenshot(&data, game);
-				exit(1);
+				exit(0);
 		}
 
 	return (TRUE);

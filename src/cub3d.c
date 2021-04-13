@@ -17,8 +17,7 @@ int	init_game(t_game *game)
 	game->manager.instance = mlx_init();
 	if (!(game->manager.instance))
 		return (0);
-	game->manager.window = mlx_new_window(game->manager.instance,
-			game->res_w, game->res_h, "Pokemon 3D");
+	game->manager.window = mlx_new_window(game->manager.instance, game->res_w, game->res_h, "Pokemon 3D");
 	if (!(game->manager.window))
 		return (0);
 	mlx_hook(game->manager.window, 2, 1L << 0, &onKeyPress, game);

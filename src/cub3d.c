@@ -7,7 +7,7 @@ int	end_game()
 {
 	endAudio();
 	SDL_Quit();
-	exit(1);
+	exit(0);
 }
 
 int	init_game(t_game *game)

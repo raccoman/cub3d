@@ -105,7 +105,7 @@ void	ft_vraycast(t_game *game, t_vraycasting *vraycasting, t_sraycasting *srayca
 		else
 			vraycasting->perpwalldist = (vraycasting->mapz - PLAYER.posz + (1.0 - vraycasting->stepz) / 2) / vraycasting->dirz;
 		vraycasting->line_height = (int)(game->res_h / vraycasting->perpwalldist);
-		vraycasting->draw_start = (int)(-vraycasting->line_height * 1.490 + (double)game->res_h / 2 + PLAYER.pitch);
+		vraycasting->draw_start = (int)(-vraycasting->line_height * 1.48 + (double)game->res_h / 2 + PLAYER.pitch);
 		if(vraycasting->draw_start < 0)
 			vraycasting->draw_start = 0;
 		vraycasting->draw_end = vraycasting->line_height / 2 + game->res_h / 2 + PLAYER.pitch;
